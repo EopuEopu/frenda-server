@@ -21,3 +21,18 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+.classpath
+.project
+*.prefs
+.springBeans
+.settings/org.eclipse.wst.common.project.facet.core.xml
+*.component
+src/main/resources/log4j.xml
+src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml
+src/main/webapp/WEB-INF/spring/root-context.xml
+src/test/resources/log4j.xml
+target/classes/log4j.xml
+*.MF
+*.properties
+target/m2e-wtp/web-resources/META-INF/maven/com.diary/damagochi/pom.xml
+target/test-classes/log4j.xml
