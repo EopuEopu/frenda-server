@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.diary.frienda.db.user.UserMapper">
+    <resultMap type="User" id="ResultUser">
+        <result property="id" column="id" />
+    </resultMap>
+    
+    <select id="getIds" resultMap="ResultUser">
+    	SELECT id
+    	FROM user
+    </select>
+    
+<!-- example of query
+	<select id="getCategoryByWeather" parameterType="String" resultMap="ResultCategory">
+    	SELECT *
+    	FROM category
+    	WHERE weather = #{weather}
+    	ORDER BY RAND()
+    	LIMIT 1
+    </select>
+-->
+</mapper>

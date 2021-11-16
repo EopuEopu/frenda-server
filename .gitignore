@@ -29,10 +29,14 @@ hs_err_pid*
 *.component
 src/main/resources/log4j.xml
 src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml
-src/main/webapp/WEB-INF/spring/root-context.xml
 src/test/resources/log4j.xml
 target/classes/log4j.xml
 *.MF
 *.properties
 target/m2e-wtp/web-resources/META-INF/maven/com.diary/damagochi/pom.xml
 target/test-classes/log4j.xml
+.metadata/.lock
+.metadata/.plugins/org.eclipse.core.resources/.projects/.org.eclipse.egit.core.cmp/.location
+*.version
+.metadata/.plugins/org.eclipse.core.resources/.root/.indexes/properties.index
+.metadata/.plugins/org.eclipse.core.resources/.root/1.tree

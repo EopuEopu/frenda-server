@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.diary.frienda.db.test.TestMapper">
+    <resultMap type="Test" id="ResultTest">
+        <result property="id" column="id"></result>
+        <result property="content" column="content"></result>
+        <result property="sentiment" column="sentiment"></result>
+        <result property="positive_value" column="positive_value"></result>
+        <result property="negative_value" column="negative_value"></result>
+        <result property="neutral_value" column="neutral_value"></result>
+    </resultMap>
+    
+    <select id="getAllSentiments" resultMap="ResultTest">
+    	SELECT id, sentiment, positive_value, negative_value, neutral_value
+    	FROM test
+    	WHERE content IS NOT NULL
+    </select>
+    
+    <select id="getResultsBySentiment" resultMap="ResultTest" parameterType="String">
+    	SELECT id, sentiment, positive_value, negative_value, neutral_value
+    	FROM test
+    	WHERE content IS NOT NULL AND sentiment = #{value}
+    </select>
+    
+    <insert id="insertAll" parameterType="Test">
+    	INSERT INTO test(content, sentiment, positive_value, negative_value, neutral_value)
+    	VALUES(#{content}, #{sentiment}, #{positive_value}, #{negative_value}, #{neutral_value})
+    </insert> 
+    
+    <select id="getAllCount" resultType="_int">
+    	SELECT count(*)
+    	FROM test
+    	WHERE content IS NOT NULL
+    </select>
+    
+    <select id="getCountBySentiment" resultType="_int" parameterType="String">
+    	SELECT count(*)
+    	FROM test
+    	WHERE content IS NOT NULL AND sentiment = #{value}
+    </select>
+    
+<!-- example of query
+	<select id="getCategoryByWeather" parameterType="String" resultMap="ResultCategory">
+    	SELECT *
+    	FROM category
+    	WHERE weather = #{weather}
+    	ORDER BY RAND()
+    	LIMIT 1
+    </select>
+-->
+</mapper>
