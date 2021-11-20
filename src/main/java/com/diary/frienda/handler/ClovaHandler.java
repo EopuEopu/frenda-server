@@ -29,10 +29,6 @@ public class ClovaHandler {
 	@Value("${frienda.clova.key}")
 	private String clova_key;
 	
-	public double doRound(double value) {
-		return Math.round(value * 100) / 100.0;
-	}
-	
 	public Document getDocumentFromDiary(String diary) throws JsonMappingException, JsonProcessingException {
 		String response = callClovaSentiment(diary);
 		

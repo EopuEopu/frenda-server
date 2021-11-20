@@ -9,8 +9,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="user_id" column="user_id"></result>
         <result property="content" column="content"></result>
         <result property="committed_date" column="committed_date"></result>
-    </resultMap>    
-    
+    </resultMap>
+    <resultMap type="MonthlyDiaries" id="ResultMonthlyDiaries">
+        <result property="diary_id" column="diary_id"></result>
+        <result property="committed_date" column="committed_date"></result>
+        <result property="user_selected_sentiment" column="user_selected_sentiment"></result>
+    </resultMap>
+        
     <!-- TODO : diarysentiment 테이블과 조인하여 한번에 sentiment값 가져오기 -->
     <select id="getAllDiariesByUserId" resultMap="ResultDiary" parameterType="String">
     	SELECT diary_id, user_id, content, committed_date
@@ -28,6 +33,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	SELECT diary_id, user_id, content, committed_date
     	FROM diary
     	WHERE user_id = #{user_id} AND diary_id = #{diary_id}
+    </select>
+    
+    <select id="getMonthlyDiariesByUserIdAndDate" resultMap="ResultMonthlyDiaries" parameterType="String">
+    	SELECT diary.diary_id, committed_date, user_selected_sentiment
+    	FROM diary, diary_sentiment
+    	WHERE diary.user_id = #{user_id} AND diary.diary_id = diary_sentiment.diary_id
+    	  		AND date_format(committed_date, '%Y-%m') = #{year_month}
     </select>
     
     <insert id="insertDiary" parameterType="Diary">

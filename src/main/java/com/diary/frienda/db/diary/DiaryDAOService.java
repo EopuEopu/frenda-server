@@ -6,6 +6,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.diary.frienda.response.data.MonthlyDiaries;
+
 @Repository
 public class DiaryDAOService implements DiaryDAO{
 	@Autowired
@@ -28,6 +30,12 @@ public class DiaryDAOService implements DiaryDAO{
 		DiaryMapper mapper = sqlSession.getMapper(DiaryMapper.class);
 		return mapper.getDiaryIdByUserId(user_id);
 	}
+	
+	@Override
+	public List<MonthlyDiaries> getMonthlyDiariesByUserIdAndDate(String user_id, String year_month) throws Exception {
+		DiaryMapper mapper = sqlSession.getMapper(DiaryMapper.class);
+		return mapper.getMonthlyDiariesByUserIdAndDate(user_id, year_month);
+	}
 
 	@Override
 	public void insertDiary(Diary diary) throws Exception {
@@ -35,4 +43,5 @@ public class DiaryDAOService implements DiaryDAO{
 		mapper.insertDiary(diary);
 		
 	}
+
 }

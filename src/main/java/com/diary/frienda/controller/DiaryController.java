@@ -18,6 +18,7 @@ import com.diary.frienda.db.user.UserDAOService;
 import com.diary.frienda.db.userFriendStatus.UserFriendStatusDAOService;
 import com.diary.frienda.handler.ClovaHandler;
 import com.diary.frienda.handler.DiaryHandler;
+import com.diary.frienda.handler.UserHandler;
 import com.diary.frienda.handler.EncryptHandler;
 import com.diary.frienda.request.DiaryInsertion;
 import com.diary.frienda.request.DiaryView;
@@ -25,6 +26,7 @@ import com.diary.frienda.response.Response;
 import com.diary.frienda.response.data.DiaryInsertionData;
 import com.diary.frienda.response.data.DiaryAllSentiments;
 import com.diary.frienda.response.data.DiaryViewData;
+import com.diary.frienda.response.data.MonthlyDiariesDataList;
 
 @RestController
 public class DiaryController {
@@ -66,7 +68,7 @@ public class DiaryController {
 		if(dc.getSentiment().equals("negative"))
 			userDAO.addNegativeDiaryCount(user_id);
 		
-		Confidence conf = roundValues(dc.getConfidence());
+		Confidence conf = DiaryHandler.roundValues(dc.getConfidence());
 		diarySentimentDAO.insertDiarySentiment(new DiarySentiment(diary_id, dc.getSentiment(), 
 				conf.getNegative(), conf.getPositive(), conf.getNeutral(), diary.getUser_selected_sentiment()));
 		
@@ -76,7 +78,7 @@ public class DiaryController {
 		
 		res = new Response(200, "일기가 저장되었습니다.",
 				new DiaryInsertionData(diary_id, favor_value, 
-						DiaryHandler.getPortalOpen(userDAO.getNegativeDiaryCountByUserId(user_id))));
+						UserHandler.getPortalOpen(userDAO.getNegativeDiaryCountByUserId(user_id))));
 		
 		return res;
 	}
@@ -104,10 +106,16 @@ public class DiaryController {
 		return res;
 	}
 	
-	private Confidence roundValues(Confidence conf) {
-		conf.setNegative(clovaHandler.doRound(conf.getNegative()));
-		conf.setPositive(clovaHandler.doRound(conf.getPositive()));
-		conf.setNeutral(clovaHandler.doRound(conf.getNeutral()));
-		return conf;
+	@RequestMapping(value = "/diary/list", method = RequestMethod.GET)
+	public Response viewAllDiaries(@RequestParam("userId") String user_id, @RequestParam("yearMonth") String year_month) throws Exception{
+		
+//		String user_key = encryptHandler.decryptContent(user_id, diary_view.getUser_key());
+		if(userDAO.checkUserId(user_id) < 1) {
+			return new Response(500, "존재하지 않는 사용자입니다.", null);		
+		}
+						
+		res = new Response(200, "일기를 성공적으로 가져왔습니다.", 
+							new MonthlyDiariesDataList(diaryDAO.getMonthlyDiariesByUserIdAndDate(user_id, year_month)));
+		return res;
 	}
 }
