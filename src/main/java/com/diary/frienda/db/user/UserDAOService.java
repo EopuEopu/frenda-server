@@ -12,9 +12,21 @@ public class UserDAOService implements UserDAO{
 	private SqlSession sqlSession;
 	
 	@Override
-	public List<User> getIds() throws Exception {
+	public List<User> getUserInfo() throws Exception {
 		UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-		return mapper.getIds();
+		return mapper.getUserInfo();
+	}
+
+	@Override
+	public String getUserKey(String user_id) throws Exception {
+		UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+		return mapper.getUserKey(user_id);
+	}
+
+	@Override
+	public int getUserValidation(String user_id, String user_key) throws Exception {
+		UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+		return mapper.getUserValidation(user_id, user_key);
 	}
 
 }

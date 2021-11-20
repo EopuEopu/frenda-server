@@ -5,12 +5,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.diary.frienda.db.user.UserMapper">
     <resultMap type="User" id="ResultUser">
-        <result property="id" column="id" />
+        <result property="user_id" column="user_id" />
+        <result property="friend_name" column="friend_name" />
+        <result property="user_key" column="user_key" />
+        <result property="negative_diary_count" column="negative_diary_count" />
     </resultMap>
     
-    <select id="getIds" resultMap="ResultUser">
-    	SELECT id
+    <select id="getUserInfo" resultMap="ResultUser">
+    	SELECT user_id, user_key
     	FROM user
+    </select>
+    
+    <select id="getUserKey" resultType="String" parameterType="String">
+    	SELECT user_key
+    	FROM user
+    	WHERE user_id = #{user_id}
+    </select>
+    
+    <select id="getUserValidation" resultType="_int" parameterType="String">
+    	SELECT COUNT(*)
+    	FROM user
+    	WHERE user_id = #{user_id} AND user_key = #{user_key}
     </select>
     
 <!-- example of query

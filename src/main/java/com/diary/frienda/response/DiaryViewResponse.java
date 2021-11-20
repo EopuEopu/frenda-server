@@ -1,18 +1,14 @@
 package com.diary.frienda.response;
 
-public class AdditionResponse {
+public class DiaryViewResponse {
 	private int status_code;
-	private int diary_id;
 	private String message;
+	private DiaryViewContent contents;
 	
-	public AdditionResponse() {
-		
-	}
-	
-	public AdditionResponse(int status_code, int diary_id, String message) {
+	public DiaryViewResponse(int status_code, String message, DiaryViewContent contents) {
 		this.status_code = status_code;
-		this.diary_id = diary_id;
 		this.message = message;
+		this.contents = contents;
 	}
 	
 	public int getStatus_code() {
@@ -21,18 +17,19 @@ public class AdditionResponse {
 	public void setStatus_code(int status_code) {
 		this.status_code = status_code;
 	}
-	public int getDiary_id() {
-		return diary_id;
-	}
-	public void setDiary_id(int diary_id) {
-		this.diary_id = diary_id;
-	}
 	public String getMessage() {
 		return message;
 	}
 	public void setMessage(String message) {
 		this.message = message;
 	}
+	public DiaryViewContent getContents() {
+		return contents;
+	}
+	public void setContents(DiaryViewContent contents) {
+		this.contents = contents;
+	}
+	
 	
 	
 }

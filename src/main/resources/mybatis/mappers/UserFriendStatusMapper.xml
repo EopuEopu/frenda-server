@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.diary.frienda.db.userFriendStatus.UserFriendStatusMapper">
+    <resultMap type="UserFriendStatus" id="ResultUserFriendStatus">
+        <result property="user_id" column="user_id" />
+        <result property="friend_name" column="friend_name" />
+        <result property="favor_value" column="favor_value" />
+        <result property="head_accessory_id" column="head_accessory_id" />
+        <result property="tail_accessory_id" column="tail_accessory_id" />
+        <result property="foot_accessory_id" column="foot_accessory_id" />
+        <result property="favor_updated_date" column="favor_updated_date" />
+    </resultMap>
+    
+    <select id="getUserFriendStatusByUserId" resultType="String">
+    	SELECT user_key
+    	FROM user
+    	WHERE user_id = #{user_id}
+    </select>
+    
+    <select id="getUserValidation" resultType="_int" parameterType="String">
+    	SELECT COUNT(*)
+    	FROM user
+    	WHERE user_id = #{user_id} AND user_key = #{user_key}
+    </select>
+    
+</mapper>

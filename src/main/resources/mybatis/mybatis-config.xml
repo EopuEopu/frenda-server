@@ -8,5 +8,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<typeAliases>
     	<typeAlias type="com.diary.frienda.db.user.User" alias="User"/>
     	<typeAlias type="com.diary.frienda.db.test.Test" alias="Test"/>
+    	<typeAlias type="com.diary.frienda.db.diary.Diary" alias="Diary"/>
+    	<typeAlias type="com.diary.frienda.db.diarySentiment.DiarySentiment" alias="DiarySentiment"/>
+    	<typeAlias type="com.diary.frienda.db.userFriendStatus.UserFriendStatus" alias="UserFriendStatus"/>
     </typeAliases>
 </configuration>

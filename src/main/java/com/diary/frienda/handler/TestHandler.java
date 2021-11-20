@@ -1,4 +1,4 @@
-package com.diary.frienda;
+package com.diary.frienda.handler;
 
 import java.util.List;
 

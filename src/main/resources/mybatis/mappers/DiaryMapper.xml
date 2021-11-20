@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.diary.frienda.db.diary.DiaryMapper">
+    <resultMap type="Diary" id="ResultDiary">
+        <result property="diary_id" column="diary_id"></result>
+        <result property="user_id" column="user_id"></result>
+        <result property="content" column="content"></result>
+        <result property="committed_date" column="committed_date"></result>
+    </resultMap>    
+    
+    <!-- TODO : diarysentiment 테이블과 조인하여 한번에 sentiment값 가져오기 -->
+    <select id="getAllDiariesByUserId" resultMap="ResultDiary" parameterType="String">
+    	SELECT diary_id, user_id, content, committed_date
+    	FROM diary
+    	WHERE user_id = #{user_id}
+    </select>
+    
+    <select id="getDiaryIdByUserId" resultType="_int" parameterType="String">
+    	SELECT MAX(diary_id)
+    	FROM diary
+    	WHERE user_id = #{user_id}
+    </select>
+    
+    <select id="getDiaryByUserIdAndDiaryId" resultMap="ResultDiary" parameterType="String">
+    	SELECT diary_id, user_id, content, committed_date
+    	FROM diary
+    	WHERE user_id = #{user_id} AND diary_id = #{diary_id}
+    </select>
+    
+    <insert id="insertDiary" parameterType="Diary">
+    	INSERT INTO diary(user_id, content)
+    	VALUES(#{user_id}, #{content})
+    </insert> 
+    
+</mapper>

@@ -1,4 +1,4 @@
-package com.diary.frienda;
+package com.diary.frienda.handler;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,6 +12,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import com.diary.frienda.clova.ClovaResponse;
+import com.diary.frienda.clova.Document;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,15 +21,25 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @PropertySource("classpath:/properties/frienda.properties")
 public class ClovaHandler {
 	@Value("${frienda.clova.url}")
-	public String clova_url;
+	private String clova_url;
 	
 	@Value("${frienda.clova.id}")
-	public String clova_id;
+	private String clova_id;
 	
 	@Value("${frienda.clova.key}")
-	public String clova_key;
+	private String clova_key;
 	
-	public String callClovaSentiment(String diary) {		
+	public double doRound(double value) {
+		return Math.round(value * 100) / 100.0;
+	}
+	
+	public Document getDocumentFromDiary(String diary) throws JsonMappingException, JsonProcessingException {
+		String response = callClovaSentiment(diary);
+		
+		return convertJsonToDocument(response).getDocument();
+	}
+	
+	private String callClovaSentiment(String diary) {		
 		URL url;
 		String result="";
 
@@ -60,7 +71,7 @@ public class ClovaHandler {
 		return result;
 	}
 	
-	public ClovaResponse convertJsonToDocument(String json) throws JsonMappingException, JsonProcessingException {
+	private ClovaResponse convertJsonToDocument(String json) throws JsonMappingException, JsonProcessingException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		ClovaResponse res = objectMapper.readValue(json, ClovaResponse.class);
 		return res;
@@ -72,5 +83,4 @@ public class ClovaHandler {
 		
 		return sb.toString();
 	}	
-	
 }

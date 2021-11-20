@@ -1,0 +1,27 @@
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.diary.frienda.db.diarySentiment.DiarySentimentMapper">
+    <resultMap type="DiarySentiment" id="ResultDiarySentiment">
+        <result property="diary_id" column="diary_id"></result>
+        <result property="sentiment" column="sentiment"></result>
+        <result property="negative_value" column="negative_value"></result>
+        <result property="positive_value" column="positive_value"></result>
+        <result property="neutral_value" column="neutral_value"></result>
+        <result property="user_selected_sentiment" column="user_selected_sentiment"></result>
+    </resultMap>    
+    
+    <!-- TODO : diarysentiment 테이블과 조인하여 한번에 sentiment값 가져오기 -->
+    <select id="getDiarySentimentByDiaryId" resultMap="ResultDiarySentiment" parameterType="_int">
+    	SELECT diary_id, sentiment, negative_value, positive_value, neutral_value, user_selected_sentiment
+    	FROM diary_sentiment
+    	WHERE diary_id = ${diary_id}
+    </select>
+    
+    <insert id="insertDiarySentiment" parameterType="DiarySentiment">
+    	INSERT INTO diary_sentiment(diary_id, sentiment, negative_value, positive_value, neutral_value, user_selected_sentiment)
+    	VALUES(#{diary_id}, #{sentiment}, #{negative_value}, #{positive_value}, #{neutral_value}, #{user_selected_sentiment})
+    </insert> 
+    
+</mapper>

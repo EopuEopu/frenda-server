@@ -11,5 +11,7 @@
 
 <P>  The time on the server is ${serverTime}. </P>
 <P>  ${jsonString} </P>
+<P>  ${id} </P>
+<P>  ${id2} </P>
 </body>
 </html>
