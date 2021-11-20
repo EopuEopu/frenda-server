@@ -5,16 +5,18 @@ public class DiaryInsertionResponse {
 	private int diary_id;
 	private String message;
 	private int favor_value;
+	private boolean portal_open;
 	
 	public DiaryInsertionResponse() {
 		
 	}
 	
-	public DiaryInsertionResponse(int status_code, int diary_id, String message, int favor_value) {
+	public DiaryInsertionResponse(int status_code, int diary_id, String message, int favor_value, boolean portal_open) {
 		this.status_code = status_code;
 		this.diary_id = diary_id;
 		this.message = message;
 		this.favor_value = favor_value;
+		this.portal_open = portal_open;
 	}
 	
 	public int getStatus_code() {
@@ -43,6 +45,15 @@ public class DiaryInsertionResponse {
 	public void setFavor_value(int favor_value) {
 		this.favor_value = favor_value;
 	}
+
+	public boolean isPortal_open() {
+		return portal_open;
+	}
+
+	public void setPortal_open(boolean portal_open) {
+		this.portal_open = portal_open;
+	}
+	
 	
 	
 }

@@ -28,6 +28,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	WHERE user_id = #{user_id} AND user_key = #{user_key}
     </select>
     
+    <select id="getNegativeDiaryCountByUserId" resultType="_int" parameterType="String">
+    	SELECT negative_diary_count
+    	FROM user
+    	WHERE user_id = #{user_id}
+    </select>
+   
+    <update id="addNegativeDiaryCount" parameterType="String">
+    	UPDATE user
+    	SET user.negative_diary_count = user.negative_diary_count + 1
+    	WHERE user_id = #{user_id}
+    </update>
+    
+    <update id="updateNegativeDiaryCountToZero" parameterType="String">
+    	UPDATE user
+    	SET user.negative_diary_count = 0
+    	WHERE user_id = #{user_id}
+    </update>
+    
 <!-- example of query
 	<select id="getCategoryByWeather" parameterType="String" resultMap="ResultCategory">
     	SELECT *

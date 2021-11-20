@@ -1,9 +1,9 @@
 package com.diary.frienda.db.userFriendStatus;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
+import com.diary.frienda.db.request.AddFavorValueRequest;
 
 public interface UserFriendStatusMapper {
-	
+	public UserFriendStatus getUserFriendStatusByUserId(String user_id) throws Exception;
+	public int getFavorValueByUserId(String user_id) throws Exception;
+	public void addFavorValue(AddFavorValueRequest request) throws Exception;
 }

@@ -14,16 +14,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="favor_updated_date" column="favor_updated_date" />
     </resultMap>
     
-    <select id="getUserFriendStatusByUserId" resultType="String">
-    	SELECT user_key
-    	FROM user
+    <select id="getUserFriendStatusByUserId" resultType="UserFriendStatus" parameterType="String">
+    	SELECT friend_name, favor_value
+    	FROM user_friend_status
     	WHERE user_id = #{user_id}
     </select>
     
-    <select id="getUserValidation" resultType="_int" parameterType="String">
-    	SELECT COUNT(*)
-    	FROM user
-    	WHERE user_id = #{user_id} AND user_key = #{user_key}
+    <select id="getFavorValueByUserId" resultType="_int" parameterType="String">
+    	SELECT favor_value
+    	FROM user_friend_status
+    	WHERE user_id = #{user_id}
+    </select>
+    
+    <select id="addFavorValue" parameterType="AddFavorValueRequest">
+    	UPDATE user_friend_status
+    	SET favor_value = favor_value + ${up},
+    	favor_updated_date = #{updated_day}
+    	WHERE user_id = #{user_id}
     </select>
     
 </mapper>
