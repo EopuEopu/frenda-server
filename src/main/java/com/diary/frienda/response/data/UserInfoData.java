@@ -1,6 +1,8 @@
-package com.diary.frienda.response;
+package com.diary.frienda.response.data;
 
-public class UserInfoData {
+import com.diary.frienda.response.Data;
+
+public class UserInfoData implements Data{
 	private String friend_name;
 	private int favor_status;
 	private int diary_id;

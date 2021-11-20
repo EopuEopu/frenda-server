@@ -10,8 +10,10 @@ import com.diary.frienda.db.user.UserDAOService;
 import com.diary.frienda.db.userFriendStatus.UserFriendStatus;
 import com.diary.frienda.db.userFriendStatus.UserFriendStatusDAOService;
 import com.diary.frienda.handler.DiaryHandler;
-import com.diary.frienda.response.UserInfoData;
-import com.diary.frienda.response.UserInfoResponse;
+import com.diary.frienda.handler.EncryptHandler;
+import com.diary.frienda.response.Response;
+import com.diary.frienda.response.data.UserInfoData;
+import com.diary.frienda.response.data.UserKeyData;
 
 @RestController
 public class UserController {
@@ -24,23 +26,34 @@ public class UserController {
 	@Autowired
 	DiaryDAOService diaryDAO;
 	
+	@Autowired
+	EncryptHandler encryptHandler;
+	
+	Response res = null;
+	
 	@RequestMapping(value = "/user-key", method = RequestMethod.GET)
-	public void getUserKey(@RequestParam("userId") String user_id) throws Exception {
-		String user_key = userDAO.getUserKey(user_id);
+	public Response getUserKey(@RequestParam("userId") String user_id) throws Exception {
+		if(userDAO.checkUserId(user_id) < 1)
+			return new Response(500, "존재하지 않는 사용자입니다.", null);
+		
+		String user_key = encryptHandler.encryptContent(user_id, userDAO.getUserKey(user_id));
+		res = new Response(200, "사용자 정보를 성공적으로 불러왔습니다.", new UserKeyData(user_key));
+		
+		return res;
 	}
 	
 	@RequestMapping(value = "/user-info", method = RequestMethod.GET)
-	public UserInfoResponse getUserStatus(@RequestParam("userId") String user_id) throws Exception {
-		UserInfoResponse res = null;
+	public Response getUserStatus(@RequestParam("userId") String user_id) throws Exception {
 		int diary_id = -1;
 		
-		//TODO : userID로 이미 존재하는 유저인지 판별하는 if문 생성
+		if(userDAO.checkUserId(user_id) < 1)
+			return new Response(500, "존재하지 않는 사용자입니다.", null);
 		
 		diary_id = diaryDAO.getDiaryIdByUserId(user_id);
 		UserFriendStatus friend_info = userFriendStatusDAO.getUserFriendStatusByUserId(user_id);
 		
 		boolean portal_open = DiaryHandler.getPortalOpen(userDAO.getNegativeDiaryCountByUserId(user_id));
-		res = new UserInfoResponse(200, "사용자 정보를 성공적으로 불러왔습니다.", 
+		res = new Response(200, "사용자 정보를 성공적으로 불러왔습니다.", 
 				new UserInfoData(friend_info.getFriend_name(), friend_info.getFavor_value(), diary_id, portal_open));
 		
 		return res;

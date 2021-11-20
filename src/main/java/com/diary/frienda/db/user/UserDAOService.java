@@ -22,6 +22,12 @@ public class UserDAOService implements UserDAO{
 		UserMapper mapper = sqlSession.getMapper(UserMapper.class);
 		return mapper.getUserKey(user_id);
 	}
+	
+	@Override
+	public int checkUserId(String user_id) throws Exception {
+		UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+		return mapper.checkUserId(user_id);
+	}
 
 	@Override
 	public int getUserValidation(String user_id, String user_key) throws Exception {
@@ -47,4 +53,6 @@ public class UserDAOService implements UserDAO{
 		UserMapper mapper = sqlSession.getMapper(UserMapper.class);
 		mapper.updateNegativeDiaryCountToZero(user_id);
 	}
+
+	
 }

@@ -1,41 +1,27 @@
-package com.diary.frienda.response;
+package com.diary.frienda.response.data;
 
-public class DiaryInsertionResponse {
-	private int status_code;
+import com.diary.frienda.response.Data;
+
+public class DiaryInsertionData implements Data{
 	private int diary_id;
-	private String message;
 	private int favor_value;
 	private boolean portal_open;
 	
-	public DiaryInsertionResponse() {
+	public DiaryInsertionData() {
 		
 	}
 	
-	public DiaryInsertionResponse(int status_code, int diary_id, String message, int favor_value, boolean portal_open) {
-		this.status_code = status_code;
+	public DiaryInsertionData(int diary_id, int favor_value, boolean portal_open) {
 		this.diary_id = diary_id;
-		this.message = message;
 		this.favor_value = favor_value;
 		this.portal_open = portal_open;
 	}
 	
-	public int getStatus_code() {
-		return status_code;
-	}
-	public void setStatus_code(int status_code) {
-		this.status_code = status_code;
-	}
 	public int getDiary_id() {
 		return diary_id;
 	}
 	public void setDiary_id(int diary_id) {
 		this.diary_id = diary_id;
-	}
-	public String getMessage() {
-		return message;
-	}
-	public void setMessage(String message) {
-		this.message = message;
 	}
 
 	public int getFavor_value() {

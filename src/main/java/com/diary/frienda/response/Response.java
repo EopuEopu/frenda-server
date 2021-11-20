@@ -1,35 +1,39 @@
 package com.diary.frienda.response;
 
-public class DiaryViewResponse {
+public class Response {
 	private int status_code;
 	private String message;
-	private DiaryViewContent contents;
+	private Data data;
 	
-	public DiaryViewResponse(int status_code, String message, DiaryViewContent contents) {
+	public Response(int status_code, String message, Data data) {
 		this.status_code = status_code;
 		this.message = message;
-		this.contents = contents;
+		this.data = data;
 	}
-	
+
 	public int getStatus_code() {
 		return status_code;
 	}
+
 	public void setStatus_code(int status_code) {
 		this.status_code = status_code;
 	}
+
 	public String getMessage() {
 		return message;
 	}
+
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	public DiaryViewContent getContents() {
-		return contents;
+
+	public Data getData() {
+		return data;
 	}
-	public void setContents(DiaryViewContent contents) {
-		this.contents = contents;
+
+	public void setData(Data data) {
+		this.data = data;
 	}
-	
 	
 	
 }

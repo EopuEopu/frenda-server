@@ -1,8 +1,6 @@
 package com.diary.frienda.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,9 +21,10 @@ import com.diary.frienda.handler.DiaryHandler;
 import com.diary.frienda.handler.EncryptHandler;
 import com.diary.frienda.request.DiaryInsertion;
 import com.diary.frienda.request.DiaryView;
-import com.diary.frienda.response.DiaryInsertionResponse;
-import com.diary.frienda.response.DiaryViewContent;
-import com.diary.frienda.response.DiaryViewResponse;
+import com.diary.frienda.response.Response;
+import com.diary.frienda.response.data.DiaryInsertionData;
+import com.diary.frienda.response.data.DiaryAllSentiments;
+import com.diary.frienda.response.data.DiaryViewData;
 
 @RestController
 public class DiaryController {
@@ -47,13 +46,16 @@ public class DiaryController {
 	@Autowired
 	private EncryptHandler encryptHandler;
 	
+	Response res = null;
+	
 	@RequestMapping(value = "/diary", method = RequestMethod.POST)
-	public DiaryInsertionResponse insertDiary(@RequestParam("userId") String user_id, 
+	public Response insertDiary(@RequestParam("userId") String user_id, 
 			@RequestBody final DiaryInsertion diary) throws Exception {
+		
 		String user_key = encryptHandler.decryptContent(user_id, diary.getUser_key());
 
 		if(userDAO.getUserValidation(user_id, user_key) < 1) {
-			return new DiaryInsertionResponse(500, -1, "저장되지 않은 사용자입니다.", -1, false);
+			return new Response(500, "존재하지 않는 사용자입니다.", null);
 		}
 		
 		diaryDAO.insertDiary(new Diary(user_id, diary.getContent()));
@@ -72,32 +74,33 @@ public class DiaryController {
 		
 		int favor_value = userFriendStatusDAO.getFavorValueByUserId(user_id);
 		
-		DiaryInsertionResponse res = new DiaryInsertionResponse(200, diary_id, "일기가 저장되었습니다.", favor_value, 
-				DiaryHandler.getPortalOpen(userDAO.getNegativeDiaryCountByUserId(user_id)));
+		res = new Response(200, "일기가 저장되었습니다.",
+				new DiaryInsertionData(diary_id, favor_value, 
+						DiaryHandler.getPortalOpen(userDAO.getNegativeDiaryCountByUserId(user_id))));
 		
 		return res;
 	}
 	
 	@RequestMapping(value = "/diary/list", method = RequestMethod.POST)
-	public DiaryViewResponse viewDiary(@RequestParam("userId") String user_id, @RequestParam("diaryId") String diary_id,
+	public Response viewDiary(@RequestParam("userId") String user_id, @RequestParam("diaryId") String diary_id,
 												@RequestBody final DiaryView diary_view) throws Exception{
-		DiaryViewResponse res = null;
-		DiaryViewContent content = null;
 		
 		String user_key = encryptHandler.decryptContent(user_id, diary_view.getUser_key());
 		
 		if(userDAO.getUserValidation(user_id, user_key) < 1) {
-			return new DiaryViewResponse(500, "저장되지 않은 사용자입니다.", null);
+			return new Response(500, "존재하지 않는 사용자입니다.", null);
 		}
 		
 		Diary diary = diaryDAO.getDiaryByUserIdAndDiaryId(user_id, diary_id);
 		
 		DiarySentiment diary_sent = diarySentimentDAO.getDiarySentimentByDiaryId(Integer.parseInt(diary_id));
-		content = new DiaryViewContent(diary.getContent(), diary.getCommitted_date(), diary_sent.getSentiment(), 
-										diary_sent.getNegative_value(), diary_sent.getPositive_value(), diary_sent.getNeutral_value(),
-										diary_sent.getUser_selected_sentiment());
+		DiaryViewData diaryData = new DiaryViewData(diary.getContent(), diary.getCommitted_date(),
+									new DiaryAllSentiments(diary_sent.getSentiment(), diary_sent.getNegative_value(), 
+														diary_sent.getPositive_value(), diary_sent.getNeutral_value(),
+														diary_sent.getUser_selected_sentiment()));
+
 		
-		res = new DiaryViewResponse(200, "일기를 성공적으로 가져왔습니다.", content);
+		res = new Response(200, "일기를 성공적으로 가져왔습니다.", diaryData);
 		return res;
 	}
 	
