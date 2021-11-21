@@ -10,6 +10,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
     	<typeAlias type="com.diary.frienda.db.test.Test" alias="Test"/>
     	<typeAlias type="com.diary.frienda.db.diary.Diary" alias="Diary"/>
     	<typeAlias type="com.diary.frienda.db.diarySentiment.DiarySentiment" alias="DiarySentiment"/>
+    	<typeAlias type="com.diary.frienda.db.food.Food" alias="Food"/>
     	<typeAlias type="com.diary.frienda.db.userFriendStatus.UserFriendStatus" alias="UserFriendStatus"/>
     	<typeAlias type="com.diary.frienda.db.request.AddFavorValueRequest" alias="AddFavorValueRequest"/>
     	<typeAlias type="com.diary.frienda.response.data.MonthlyDiaries" alias="MonthlyDiaries"/>

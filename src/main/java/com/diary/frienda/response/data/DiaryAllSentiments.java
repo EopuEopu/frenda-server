@@ -1,11 +1,21 @@
 package com.diary.frienda.response.data;
 
+import com.diary.frienda.db.diarySentiment.DiarySentiment;
+
 public class DiaryAllSentiments {
 	private String sentiment;
 	private double negative_value;
 	private double positive_value;
 	private double neutral_value;
 	private String user_selected_sentiment;
+	
+	public DiaryAllSentiments(DiarySentiment diarySent) {
+		this.sentiment = diarySent.getSentiment();
+		this.negative_value = diarySent.getNegative_value();
+		this.positive_value = diarySent.getPositive_value();
+		this.neutral_value = diarySent.getNeutral_value();
+		this.user_selected_sentiment = diarySent.getUser_selected_sentiment();
+	}
 	
 	public DiaryAllSentiments(String sentiment, double negative_value, double positive_value, 
 			double neutral_value, String user_selected_sentiment) {

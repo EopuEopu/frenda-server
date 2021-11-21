@@ -6,15 +6,17 @@ public class DiaryInsertionData implements Data{
 	private int diary_id;
 	private int favor_value;
 	private boolean portal_open;
+	private FoodData food;
 	
 	public DiaryInsertionData() {
 		
 	}
 	
-	public DiaryInsertionData(int diary_id, int favor_value, boolean portal_open) {
+	public DiaryInsertionData(int diary_id, int favor_value, boolean portal_open, FoodData food) {
 		this.diary_id = diary_id;
 		this.favor_value = favor_value;
 		this.portal_open = portal_open;
+		this.food = food;
 	}
 	
 	public int getDiary_id() {
@@ -38,6 +40,14 @@ public class DiaryInsertionData implements Data{
 
 	public void setPortal_open(boolean portal_open) {
 		this.portal_open = portal_open;
+	}
+
+	public FoodData getFood() {
+		return food;
+	}
+
+	public void setFood(FoodData food) {
+		this.food = food;
 	}
 	
 	

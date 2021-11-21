@@ -14,7 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <!-- TODO : diarysentiment 테이블과 조인하여 한번에 sentiment값 가져오기 -->
     <select id="getDiarySentimentByDiaryId" resultMap="ResultDiarySentiment" parameterType="_int">
-    	SELECT diary_id, sentiment, negative_value, positive_value, neutral_value, user_selected_sentiment
+    	SELECT *
     	FROM diary_sentiment
     	WHERE diary_id = ${diary_id}
     </select>
