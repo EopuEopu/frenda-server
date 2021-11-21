@@ -26,11 +26,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	WHERE user_id = #{user_id}
     </select>
     
-    <select id="addFavorValue" parameterType="AddFavorValueRequest">
+    <update id="addFavorValue" parameterType="AddFavorValueRequest">
     	UPDATE user_friend_status
     	SET favor_value = favor_value + ${up},
     	favor_updated_date = #{updated_day}
     	WHERE user_id = #{user_id}
-    </select>
+    </update>
     
 </mapper>

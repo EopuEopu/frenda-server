@@ -12,6 +12,12 @@ public class Diary {
 		this.content = content;
 	}
 	
+	public Diary(String user_id, int diary_id, String content) {
+		this.user_id = user_id;
+		this.diary_id = diary_id;
+		this.content = content;
+	}
+	
 	public int getDiary_id() {
 		return diary_id;
 	}

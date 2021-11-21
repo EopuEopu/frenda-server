@@ -48,4 +48,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	VALUES(#{user_id}, #{content})
     </insert> 
     
+    <update id="updateDiaryContent" parameterType="Diary">
+    	UPDATE diary
+    	SET content = #{content}
+    	WHERE user_id = #{user_id} AND diary_id = ${diary_id}
+    </update>
+    
 </mapper>

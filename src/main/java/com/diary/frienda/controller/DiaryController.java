@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.diary.frienda.clova.Confidence;
 import com.diary.frienda.clova.Document;
 import com.diary.frienda.db.diary.Diary;
 import com.diary.frienda.db.diary.DiaryDAOService;
@@ -22,9 +21,11 @@ import com.diary.frienda.handler.DiaryHandler;
 import com.diary.frienda.handler.UserHandler;
 import com.diary.frienda.handler.EncryptHandler;
 import com.diary.frienda.request.DiaryInsertion;
+import com.diary.frienda.request.DiaryUpdate;
 import com.diary.frienda.request.DiaryView;
 import com.diary.frienda.response.Response;
 import com.diary.frienda.response.data.DiaryInsertionData;
+import com.diary.frienda.response.data.DiaryUpdateData;
 import com.diary.frienda.response.data.DiaryAllSentiments;
 import com.diary.frienda.response.data.DiaryViewData;
 import com.diary.frienda.response.data.FoodData;
@@ -118,4 +119,20 @@ public class DiaryController {
 							new MonthlyDiariesDataList(diaryDAO.getMonthlyDiariesByUserIdAndDate(user_id, year_month)));
 		return res;
 	}
+	
+	@RequestMapping(value = "/diary", method = RequestMethod.PATCH)
+	public Response updateDiary(@RequestParam("userId") String user_id, @RequestParam("diaryId") String diary_id,
+									@RequestBody final DiaryUpdate diary) throws Exception {
+		
+		String user_key = encryptHandler.decryptContent(user_id, diary.getUser_key());
+		if(userDAO.getUserValidation(user_id, user_key) < 1)
+			return new Response(500, "존재하지 않는 사용자입니다.", null);
+		
+		diaryDAO.updateDiaryContent(new Diary(user_id, Integer.parseInt(diary_id), diary.getContent()));
+						
+		res = new Response(200, "일기를 성공적으로 수정했습니다.", new DiaryUpdateData(Integer.parseInt(diary_id)));
+		return res;
+	}
+	
+	
 }

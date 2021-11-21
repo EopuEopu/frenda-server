@@ -44,4 +44,10 @@ public class DiaryDAOService implements DiaryDAO{
 		
 	}
 
+	@Override
+	public void updateDiaryContent(Diary diary) throws Exception {
+		DiaryMapper mapper = sqlSession.getMapper(DiaryMapper.class);
+		mapper.updateDiaryContent(diary);
+	}
+
 }
