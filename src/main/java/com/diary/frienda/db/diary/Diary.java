@@ -5,6 +5,7 @@ public class Diary {
 	private String user_id;
 	private String content;
 	private String committed_date;
+	private String updated_date;
 	
 	public Diary(String user_id, String content) {
 		this.user_id = user_id;
@@ -35,6 +36,13 @@ public class Diary {
 	public void setCommitted_date(String committed_date) {
 		this.committed_date = committed_date;
 	}
-	
+
+	public String getUpdated_date() {
+		return updated_date;
+	}
+
+	public void setUpdated_date(String updated_date) {
+		this.updated_date = updated_date;
+	}	
 	
 }
