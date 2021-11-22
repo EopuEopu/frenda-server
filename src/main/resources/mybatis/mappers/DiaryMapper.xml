@@ -25,7 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
     <select id="getDiaryIdByUserId" resultType="_int" parameterType="String">
-    	SELECT MAX(diary_id)
+    	SELECT IFNULL(MAX(diary_id), -1)
     	FROM diary
     	WHERE user_id = #{user_id} AND DATE_FORMAT(committed_date, "%Y-%m-%d") = CURDATE()
     </select>
