@@ -4,18 +4,18 @@ import com.diary.frienda.response.Data;
 
 public class DiaryInsertionData implements Data{
 	private int diary_id;
-	private int favor_value;
 	private boolean portal_open;
+	private FavorData favor;
 	private FoodData food;
 	
 	public DiaryInsertionData() {
 		
 	}
 	
-	public DiaryInsertionData(int diary_id, int favor_value, boolean portal_open, FoodData food) {
+	public DiaryInsertionData(int diary_id, boolean portal_open, FavorData favor, FoodData food) {
 		this.diary_id = diary_id;
-		this.favor_value = favor_value;
 		this.portal_open = portal_open;
+		this.favor = favor;
 		this.food = food;
 	}
 	
@@ -24,14 +24,6 @@ public class DiaryInsertionData implements Data{
 	}
 	public void setDiary_id(int diary_id) {
 		this.diary_id = diary_id;
-	}
-
-	public int getFavor_value() {
-		return favor_value;
-	}
-
-	public void setFavor_value(int favor_value) {
-		this.favor_value = favor_value;
 	}
 
 	public boolean isPortal_open() {
@@ -48,6 +40,14 @@ public class DiaryInsertionData implements Data{
 
 	public void setFood(FoodData food) {
 		this.food = food;
+	}
+
+	public FavorData getFavor() {
+		return favor;
+	}
+
+	public void setFavor(FavorData favor) {
+		this.favor = favor;
 	}
 	
 	

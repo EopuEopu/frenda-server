@@ -18,6 +18,14 @@ public class Diary {
 		this.content = content;
 	}
 	
+	public Diary(int diary_id, String user_id, String content, String committed_date, String updated_date) {
+		this.user_id = user_id;
+		this.diary_id = diary_id;
+		this.content = content;
+		this.committed_date = committed_date;
+		this.updated_date = updated_date;
+	}
+	
 	public int getDiary_id() {
 		return diary_id;
 	}

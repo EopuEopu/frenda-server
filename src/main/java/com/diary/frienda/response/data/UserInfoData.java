@@ -4,13 +4,13 @@ import com.diary.frienda.response.Data;
 
 public class UserInfoData implements Data{
 	private String friend_name;
-	private int favor_status;
+	private int favor_value;
 	private int diary_id;
 	private boolean portal_open;
 	
-	public UserInfoData(String friend_name, int favor_status, int diary_id, boolean portal_open) {
+	public UserInfoData(String friend_name, int favor_value, int diary_id, boolean portal_open) {
 		this.friend_name = friend_name;
-		this.favor_status = favor_status;
+		this.favor_value = favor_value;
 		this.diary_id = diary_id;
 		this.portal_open = portal_open;
 	}
@@ -21,11 +21,11 @@ public class UserInfoData implements Data{
 	public void setFriend_name(String friend_name) {
 		this.friend_name = friend_name;
 	}
-	public int getFavor_status() {
-		return favor_status;
+	public int getFavor_value() {
+		return favor_value;
 	}
-	public void setFavor_status(int favor_status) {
-		this.favor_status = favor_status;
+	public void setFavor_value(int favor_value) {
+		this.favor_value = favor_value;
 	}
 	public boolean isPortal_open() {
 		return portal_open;

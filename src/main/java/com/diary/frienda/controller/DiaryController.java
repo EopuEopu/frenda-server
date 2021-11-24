@@ -28,6 +28,7 @@ import com.diary.frienda.response.data.DiaryInsertionData;
 import com.diary.frienda.response.data.DiaryUpdateData;
 import com.diary.frienda.response.data.DiaryAllSentiments;
 import com.diary.frienda.response.data.DiaryViewData;
+import com.diary.frienda.response.data.FavorData;
 import com.diary.frienda.response.data.FoodData;
 import com.diary.frienda.response.data.MonthlyDiariesDataList;
 
@@ -78,11 +79,10 @@ public class DiaryController {
 		
 		userFriendStatusDAO.addFavorValue(new AddFavorValueRequest(user_id, 1));
 		
-		int favor_value = userFriendStatusDAO.getFavorValueByUserId(user_id);
-		
 		res = new Response(200, "일기가 저장되었습니다.",
-							new DiaryInsertionData(diary_id, favor_value, 
-													UserHandler.getPortalOpen(userDAO.getNegativeDiaryCountByUserId(user_id)), 
+							new DiaryInsertionData(diary_id,
+													UserHandler.getPortalOpen(userDAO.getNegativeDiaryCountByUserId(user_id)),
+													new FavorData(userFriendStatusDAO.getFavorValueByUserId(user_id), 1),
 													new FoodData(foodDAO.getFoodBySentiment(diary.getUser_selected_sentiment()))));
 		
 		return res;
