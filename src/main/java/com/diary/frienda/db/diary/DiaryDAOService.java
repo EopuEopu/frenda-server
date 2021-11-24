@@ -50,4 +50,10 @@ public class DiaryDAOService implements DiaryDAO{
 		mapper.updateDiaryContent(diary);
 	}
 
+	@Override
+	public String getLatestDiaryDateByUserId(String user_id) throws Exception {
+		DiaryMapper mapper = sqlSession.getMapper(DiaryMapper.class);
+		return mapper.getLatestDiaryDateByUserId(user_id);
+	}
+
 }

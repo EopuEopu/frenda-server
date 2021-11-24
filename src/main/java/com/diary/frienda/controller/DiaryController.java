@@ -80,7 +80,7 @@ public class DiaryController {
 		userFriendStatusDAO.addFavorValue(new AddFavorValueRequest(user_id, 1));
 		
 		res = new Response(200, "일기가 저장되었습니다.",
-							new DiaryInsertionData(diary_id,
+							new DiaryInsertionData(diary_id, diaryDAO.getLatestDiaryDateByUserId(user_id),
 													UserHandler.getPortalOpen(userDAO.getNegativeDiaryCountByUserId(user_id)),
 													new FavorData(userFriendStatusDAO.getFavorValueByUserId(user_id), 1),
 													new FoodData(foodDAO.getFoodBySentiment(diary.getUser_selected_sentiment()))));

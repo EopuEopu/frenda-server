@@ -30,6 +30,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	WHERE user_id = #{user_id} AND DATE_FORMAT(committed_date, "%Y-%m-%d") = CURDATE()
     </select>
     
+    <select id="getLatestDiaryDateByUserId" resultType="String" parameterType="String">
+    	SELECT MAX(committed_date)
+    	FROM diary
+    	WHERE user_id = #{user_id}
+    </select>
+    
     <select id="getDiaryByUserIdAndDiaryId" resultMap="ResultDiary" parameterType="String">
     	SELECT *
     	FROM diary
