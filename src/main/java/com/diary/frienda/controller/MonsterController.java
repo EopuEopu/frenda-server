@@ -13,6 +13,7 @@ import com.diary.frienda.db.user.UserDAOService;
 import com.diary.frienda.db.userFriendStatus.UserFriendStatusDAOService;
 import com.diary.frienda.response.Response;
 import com.diary.frienda.response.data.AfterMonsterData;
+import com.diary.frienda.response.data.FavorData;
 
 @RestController
 public class MonsterController {
@@ -34,8 +35,10 @@ public class MonsterController {
 		
 		huntedMonsterLogDAO.insertMonsterLog(new HuntedMonsterLog(user_id, 1));
 		userFriendStatusDAO.addFavorValue(new AddFavorValueRequest(user_id, 3));
+		userDAO.updateNegativeDiaryCountToZero(user_id);
 		
-		res = new Response(200, "성공적으로 몬스터 로그를 저장했습니다.", new AfterMonsterData(userFriendStatusDAO.getFavorValueByUserId(user_id)));
+		res = new Response(200, "성공적으로 몬스터 로그를 저장했습니다.", 
+							new AfterMonsterData(new FavorData(userFriendStatusDAO.getFavorValueByUserId(user_id), 3)));
 		
 		return res;
 	}

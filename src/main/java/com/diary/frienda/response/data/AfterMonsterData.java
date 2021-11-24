@@ -3,19 +3,18 @@ package com.diary.frienda.response.data;
 import com.diary.frienda.response.Data;
 
 public class AfterMonsterData implements Data{
-	private int favor_value;
+	private FavorData favor;
 
-	public AfterMonsterData(int favor_value) {
-		this.favor_value = favor_value;
-	}
-	
-	public int getFavor_value() {
-		return favor_value;
+	public AfterMonsterData(FavorData favor) {
+		this.favor = favor;
 	}
 
-	public void setFavor_value(int favor_value) {
-		this.favor_value = favor_value;
+	public FavorData getFavor() {
+		return favor;
 	}
-	
-	
+
+	public void setFavor(FavorData favor) {
+		this.favor = favor;
+	}
+
 }
