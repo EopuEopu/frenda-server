@@ -55,7 +55,8 @@ public class UserController {
 		
 		boolean portal_open = UserHandler.getPortalOpen(userDAO.getNegativeDiaryCountByUserId(user_id));
 		res = new Response(200, "사용자 정보를 성공적으로 불러왔습니다.", 
-				new UserInfoData(friend_info.getFriend_name(), friend_info.getFavor_value(), diary_id, portal_open));
+							new UserInfoData(friend_info, diary_id, 
+									diaryDAO.getLatestDiaryDateByUserId(user_id) , portal_open));
 		
 		return res;
 	}
