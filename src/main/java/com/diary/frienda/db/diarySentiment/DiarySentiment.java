@@ -29,6 +29,11 @@ public class DiarySentiment {
 		this.user_selected_sentiment = user_selected_sentiment;
 	}
 	
+	public DiarySentiment(int diary_id, String user_selected_sentiment) {
+		this.diary_id = diary_id;
+		this.user_selected_sentiment = user_selected_sentiment;
+	}
+	
 	public int getDiary_id() {
 		return diary_id;
 	}

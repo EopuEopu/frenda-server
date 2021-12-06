@@ -22,6 +22,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertDiarySentiment" parameterType="DiarySentiment">
     	INSERT INTO diary_sentiment
     	VALUES(#{diary_id}, #{sentiment}, #{negative_value}, #{positive_value}, #{neutral_value}, #{user_selected_sentiment})
-    </insert> 
+    </insert>
+    
+    <insert id="insertDiaryUserSentiment" parameterType="DiarySentiment">
+    	INSERT INTO diary_sentiment(diary_id, user_selected_sentiment)
+    	VALUES(#{diary_id}, #{user_selected_sentiment})
+    </insert>
     
 </mapper>

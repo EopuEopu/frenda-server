@@ -20,4 +20,12 @@ public class DiarySentimentDAOService implements DiarySentimentDAO{
 		DiarySentimentMapper mapper = sqlSession.getMapper(DiarySentimentMapper.class);
 		mapper.insertDiarySentiment(diarySentiment);
 	}
+
+	@Override
+	public void insertDiaryUserSentiment(DiarySentiment diarySentiment) throws Exception {
+		DiarySentimentMapper mapper = sqlSession.getMapper(DiarySentimentMapper.class);
+		mapper.insertDiaryUserSentiment(diarySentiment);
+	}
+	
+	
 }

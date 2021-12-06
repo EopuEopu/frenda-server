@@ -69,13 +69,10 @@ public class DiaryController {
 		diaryDAO.insertDiary(new Diary(user_id, diary.getContent()));
 		int diary_id = diaryDAO.getDiaryIdByUserId(user_id);
 		
-		Document dc = clovaHandler.getDocumentFromDiary(encryptHandler.decryptContent(user_id, diary.getContent()));
-		
-		if(dc.getSentiment().equals("negative"))
+		if(DiaryHandler.isNegativeSentiment(diary.getUser_selected_sentiment()))
 			userDAO.addNegativeDiaryCount(user_id);
 		
-		diarySentimentDAO.insertDiarySentiment(new DiarySentiment(diary_id, dc.getSentiment(), diary.getUser_selected_sentiment(), 
-																	DiaryHandler.roundValues(dc.getConfidence())));
+		diarySentimentDAO.insertDiaryUserSentiment(new DiarySentiment(diary_id, diary.getUser_selected_sentiment()));
 		
 		userFriendStatusDAO.addFavorValue(new AddFavorValueRequest(user_id, 1));
 		
