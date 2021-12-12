@@ -12,4 +12,5 @@ public interface UserMapper {
 	public int getNegativeDiaryCountByUserId(String user_id) throws Exception;
 	public void addNegativeDiaryCount(String user_id) throws Exception;
 	public void updateNegativeDiaryCountToZero(String user_id) throws Exception;
+	public void insertNewUser(User user) throws Exception;
 }

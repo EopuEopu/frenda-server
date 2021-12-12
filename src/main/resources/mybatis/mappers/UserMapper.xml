@@ -52,6 +52,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	WHERE user_id = #{user_id}
     </update>
     
+    <insert id="insertNewUser" parameterType="User">
+    	INSERT INTO user(user_id, user_key)
+    	VALUES(#{user_id}, #{user_key})
+    </insert>
+    
 <!-- example of query
 	<select id="getCategoryByWeather" parameterType="String" resultMap="ResultCategory">
     	SELECT *

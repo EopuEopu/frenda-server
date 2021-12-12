@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.diary.frienda.db.diary.DiaryDAOService;
+import com.diary.frienda.db.user.User;
 import com.diary.frienda.db.user.UserDAOService;
 import com.diary.frienda.db.userFriendStatus.UserFriendStatus;
 import com.diary.frienda.db.userFriendStatus.UserFriendStatusDAOService;
@@ -31,6 +32,18 @@ public class UserController {
 	EncryptHandler encryptHandler;
 	
 	Response res = null;
+	
+	@RequestMapping(value = "/new-user", method = RequestMethod.GET)
+	public Response makeNewUser(@RequestParam("userId") String user_id) throws Exception {
+		if(userDAO.checkUserId(user_id) > 0)
+			return new Response(500, "이미 존재하는 사용자입니다.", null);
+		
+		String user_key = encryptHandler.encryptContent(user_id, UserHandler.makeUserKey());
+		userDAO.insertNewUser(new User(user_id, user_key));
+		res = new Response(200, "새로운 사용자 정보를 성공적으로 저장했습니다.", new UserKeyData(user_key));
+		
+		return res;
+	}
 	
 	@RequestMapping(value = "/user-key", method = RequestMethod.GET)
 	public Response getUserKey(@RequestParam("userId") String user_id) throws Exception {

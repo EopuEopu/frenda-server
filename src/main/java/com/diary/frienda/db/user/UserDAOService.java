@@ -54,5 +54,10 @@ public class UserDAOService implements UserDAO{
 		mapper.updateNegativeDiaryCountToZero(user_id);
 	}
 
+	@Override
+	public void insertNewUser(User user) throws Exception {
+		UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+		mapper.insertNewUser(user);
+	}
 	
 }

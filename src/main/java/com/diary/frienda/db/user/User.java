@@ -6,6 +6,15 @@ public class User {
 	private String user_key;
 	private int negative_diary_count;
 	
+	public User() {
+		
+	}
+	
+	public User(String user_id, String user_key) {
+		this.user_id = user_id;
+		this.user_key = user_key;
+	}
+	
 	public String getUser_id() {
 		return user_id;
 	}
