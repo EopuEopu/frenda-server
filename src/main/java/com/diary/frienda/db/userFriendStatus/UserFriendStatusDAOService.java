@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.diary.frienda.db.request.AddFavorValueRequest;
-import com.diary.frienda.db.user.UserMapper;
 
 @Repository
 public class UserFriendStatusDAOService implements UserFriendStatusDAO{
@@ -25,10 +24,21 @@ public class UserFriendStatusDAOService implements UserFriendStatusDAO{
 	}
 
 	@Override
+	public int checkUserFriendByUserId(String user_id) throws Exception {
+		UserFriendStatusMapper mapper = sqlSession.getMapper(UserFriendStatusMapper.class);
+		return mapper.checkUserFriendByUserId(user_id);
+	}
+	
+	@Override
 	public void addFavorValue(AddFavorValueRequest request) throws Exception {
 		UserFriendStatusMapper mapper = sqlSession.getMapper(UserFriendStatusMapper.class);
 		mapper.addFavorValue(request);
-		
+	}
+	
+	@Override
+	public void insertNewFriend(String user_id, String friend_name) throws Exception {
+		UserFriendStatusMapper mapper = sqlSession.getMapper(UserFriendStatusMapper.class);
+		mapper.insertNewFriend(user_id, friend_name);
 	}
 
 }

@@ -14,6 +14,7 @@ import com.diary.frienda.db.userFriendStatus.UserFriendStatusDAOService;
 import com.diary.frienda.handler.UserHandler;
 import com.diary.frienda.handler.EncryptHandler;
 import com.diary.frienda.response.Response;
+import com.diary.frienda.response.data.UserFriendStatusData;
 import com.diary.frienda.response.data.UserInfoData;
 import com.diary.frienda.response.data.UserKeyData;
 
@@ -41,6 +42,24 @@ public class UserController {
 		String user_key = encryptHandler.encryptContent(user_id, UserHandler.makeUserKey());
 		userDAO.insertNewUser(new User(user_id, user_key));
 		res = new Response(200, "새로운 사용자 정보를 성공적으로 저장했습니다.", new UserKeyData(user_key));
+		
+		return res;
+	}
+	
+	@RequestMapping(value = "/new-friend", method = RequestMethod.GET)
+	public Response makeNewFriend(@RequestParam("userId") String user_id, 
+			@RequestParam("friendName") String friend_name) throws Exception {
+		if(userDAO.checkUserId(user_id) < 1)
+			return new Response(500, "존재하지 않는 사용자입니다.", null);
+		
+		if(userFriendStatusDAO.checkUserFriendByUserId(user_id) > 0)
+			return new Response(500, "이미 친구가 존재합니다.",
+					new UserFriendStatusData(userFriendStatusDAO.getUserFriendStatusByUserId(user_id)));
+		
+		userFriendStatusDAO.insertNewFriend(user_id, friend_name);
+
+		res = new Response(200, "새로운 사용자의 친구 정보를 성공적으로 저장했습니다.", 
+				new UserFriendStatusData(userFriendStatusDAO.getUserFriendStatusByUserId(user_id)));
 		
 		return res;
 	}

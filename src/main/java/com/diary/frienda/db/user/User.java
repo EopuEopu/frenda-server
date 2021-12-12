@@ -2,7 +2,6 @@ package com.diary.frienda.db.user;
 
 public class User {
 	private String user_id;
-	private String friend_name;
 	private String user_key;
 	private int negative_diary_count;
 	
@@ -20,12 +19,6 @@ public class User {
 	}
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
-	}
-	public String getFriend_name() {
-		return friend_name;
-	}
-	public void setFriend_name(String friend_name) {
-		this.friend_name = friend_name;
 	}
 	public String getUser_key() {
 		return user_key;

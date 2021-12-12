@@ -26,11 +26,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	WHERE user_id = #{user_id}
     </select>
     
+    <select id="checkUserFriendByUserId" resultType="_int" parameterType="String">
+    	SELECT COUNT(*)
+    	FROM user_friend_status
+    	WHERE user_id = #{user_id}
+    </select>
+    
     <update id="addFavorValue" parameterType="AddFavorValueRequest">
     	UPDATE user_friend_status
     	SET favor_value = favor_value + ${up},
     	favor_updated_date = #{updated_day}
     	WHERE user_id = #{user_id}
     </update>
+    
+    <insert id="insertNewFriend" parameterType="String">
+    	INSERT INTO user_friend_status(user_id, friend_name)
+    	VALUES(#{user_id}, #{friend_name})
+    </insert>
     
 </mapper>

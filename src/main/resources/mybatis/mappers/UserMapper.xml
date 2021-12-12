@@ -6,7 +6,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.diary.frienda.db.user.UserMapper">
     <resultMap type="User" id="ResultUser">
         <result property="user_id" column="user_id" />
-        <result property="friend_name" column="friend_name" />
         <result property="user_key" column="user_key" />
         <result property="negative_diary_count" column="negative_diary_count" />
     </resultMap>
