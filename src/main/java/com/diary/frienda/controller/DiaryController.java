@@ -14,6 +14,7 @@ import com.diary.frienda.db.diarySentiment.DiarySentiment;
 import com.diary.frienda.db.diarySentiment.DiarySentimentDAOService;
 import com.diary.frienda.db.food.FoodDAOService;
 import com.diary.frienda.db.request.AddFavorValueRequest;
+import com.diary.frienda.db.sentiment.SentimentDAOService;
 import com.diary.frienda.db.user.UserDAOService;
 import com.diary.frienda.db.userFriendStatus.UserFriendStatusDAOService;
 import com.diary.frienda.handler.ClovaHandler;
@@ -50,6 +51,9 @@ public class DiaryController {
 	private FoodDAOService foodDAO;
 	
 	@Autowired
+	private SentimentDAOService sentimentDAO;
+	
+	@Autowired
 	private ClovaHandler clovaHandler;
 	
 	@Autowired
@@ -69,7 +73,7 @@ public class DiaryController {
 		diaryDAO.insertDiary(new Diary(user_id, diary.getContent()));
 		int diary_id = diaryDAO.getDiaryIdByUserId(user_id);
 		
-		if(DiaryHandler.isNegativeSentiment(diary.getUser_selected_sentiment()))
+		if(sentimentDAO.getApprSentimentByDetailedSentiment(diary.getUser_selected_sentiment()).compareTo("negative") == 0)
 			userDAO.addNegativeDiaryCount(user_id);
 		
 		diarySentimentDAO.insertDiaryUserSentiment(new DiarySentiment(diary_id, diary.getUser_selected_sentiment()));
