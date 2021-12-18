@@ -47,6 +47,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	FROM diary, diary_sentiment
     	WHERE diary.user_id = #{user_id} AND diary.diary_id = diary_sentiment.diary_id
     	  		AND date_format(committed_date, '%Y-%m') = #{year_month}
+  	  	ORDER BY committed_date DESC
     </select>
     
     <insert id="insertDiary" parameterType="Diary">
