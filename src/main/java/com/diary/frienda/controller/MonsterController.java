@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.diary.frienda.db.diarySentiment.DiarySentimentDAOService;
 import com.diary.frienda.db.huntedMonsterLog.HuntedMonsterLog;
 import com.diary.frienda.db.huntedMonsterLog.HuntedMonsterLogDAOService;
 import com.diary.frienda.db.request.AddFavorValueRequest;
@@ -24,6 +25,9 @@ public class MonsterController {
 	UserFriendStatusDAOService userFriendStatusDAO;
 	
 	@Autowired
+	DiarySentimentDAOService diarySentimentDAO;
+	
+	@Autowired
 	HuntedMonsterLogDAOService huntedMonsterLogDAO;
 	
 	Response res = null;
@@ -38,7 +42,8 @@ public class MonsterController {
 		userDAO.updateNegativeDiaryCountToZero(user_id);
 		
 		res = new Response(200, "성공적으로 몬스터 로그를 저장했습니다.", 
-							new AfterMonsterData(new FavorData(userFriendStatusDAO.getFavorValueByUserId(user_id), 3)));
+							new AfterMonsterData(new FavorData(userFriendStatusDAO.getFavorValueByUserId(user_id), 3)
+									,diarySentimentDAO.getNegativeSentimentCount(user_id)));
 		
 		return res;
 	}

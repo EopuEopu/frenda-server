@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="log_id" column="log_id"></result>
         <result property="user_id" column="user_id"></result>
         <result property="monster_id" column="monster_id"></result>
+        <result property="hunted_time" column="hunted_time"></result>
     </resultMap>
         
     <select id="insertMonsterLog" parameterType="HuntedMonsterLog">

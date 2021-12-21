@@ -4,6 +4,7 @@ public class HuntedMonsterLog {
 	private int log_id;
 	private String user_id;
 	private int monster_id;
+	private String hunted_time;
 	
 	public HuntedMonsterLog(String user_id, int monster_id) {
 		this.user_id = user_id;
@@ -28,6 +29,11 @@ public class HuntedMonsterLog {
 	public void setMonster_id(int monster_id) {
 		this.monster_id = monster_id;
 	}
-	
+	public String getHunted_time() {
+		return hunted_time;
+	}
+	public void setHunted_time(String hunted_time) {
+		this.hunted_time = hunted_time;
+	}
 	
 }
