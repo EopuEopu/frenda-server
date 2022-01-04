@@ -16,10 +16,13 @@ import com.diary.frienda.handler.ResponseHandler;
 import com.diary.frienda.handler.UserHandler;
 import com.diary.frienda.response.Response;
 import com.diary.frienda.response.data.AfterMonsterData;
-import com.diary.frienda.response.data.FavorData;
+import com.diary.frienda.response.data.sub.FavorData;
 
 @RestController
 public class MonsterController {
+	@Autowired
+	private UserHandler userH;
+	
 	@Autowired
 	UserDAOService userDAO;
 	
@@ -34,7 +37,7 @@ public class MonsterController {
 	
 	@RequestMapping(value = "/monster-log", method = RequestMethod.GET)
 	public Response huntMonster(@RequestParam("userId") String user_id) throws Exception {
-		if(userDAO.checkUserId(user_id) < 1)
+		if(userH.isNotPresentUser(user_id))
 			return ResponseHandler.failResponse();
 		
 		huntedMonsterLogDAO.insertMonsterLog(new HuntedMonsterLog(user_id, 1));

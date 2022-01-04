@@ -1,4 +1,4 @@
-package com.diary.frienda.response.data;
+package com.diary.frienda.response.data.sub;
 
 public class NegativeSentimentCount {
 	private String sentiment;

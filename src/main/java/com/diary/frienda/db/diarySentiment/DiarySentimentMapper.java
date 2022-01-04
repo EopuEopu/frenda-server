@@ -2,7 +2,7 @@ package com.diary.frienda.db.diarySentiment;
 
 import java.util.List;
 
-import com.diary.frienda.response.data.NegativeSentimentCount;
+import com.diary.frienda.response.data.sub.NegativeSentimentCount;
 
 public interface DiarySentimentMapper {
 	public DiarySentiment getDiarySentimentByDiaryId(int diary_id) throws Exception;

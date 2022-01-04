@@ -3,6 +3,8 @@ package com.diary.frienda.response.data;
 import java.util.List;
 
 import com.diary.frienda.response.Data;
+import com.diary.frienda.response.data.sub.FavorData;
+import com.diary.frienda.response.data.sub.NegativeSentimentCount;
 
 public class AfterMonsterData implements Data{
 	private FavorData favor;

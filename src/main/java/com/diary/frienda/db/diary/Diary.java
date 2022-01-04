@@ -7,9 +7,9 @@ public class Diary {
 	private String committed_date;
 	private String updated_date;
 	
-	public Diary(String user_id, String content) {
-		this.user_id = user_id;
-		this.content = content;
+	public Diary(int diary_id, String committed_date) {
+		this.diary_id = diary_id;
+		this.committed_date = committed_date;
 	}
 	
 	public Diary(String user_id, int diary_id, String content) {

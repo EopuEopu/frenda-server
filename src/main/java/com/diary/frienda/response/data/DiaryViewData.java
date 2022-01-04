@@ -1,6 +1,8 @@
 package com.diary.frienda.response.data;
 
+import com.diary.frienda.db.diary.Diary;
 import com.diary.frienda.response.Data;
+import com.diary.frienda.response.data.sub.DiaryAllSentiments;
 
 public class DiaryViewData implements Data {
 	private String content;
@@ -8,9 +10,9 @@ public class DiaryViewData implements Data {
 	private DiaryAllSentiments diary_sentiments;
 	
 	
-	public DiaryViewData(String content, String committed_date, DiaryAllSentiments diary_sentiments) {
-		this.content = content;
-		this.committed_date = committed_date;
+	public DiaryViewData(Diary diary, DiaryAllSentiments diary_sentiments) {
+		this.content = diary.getContent();
+		this.committed_date = diary.getCommitted_date();
 		this.diary_sentiments = diary_sentiments;
 	}
 	

@@ -50,7 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   	  	ORDER BY committed_date DESC
     </select>
     
-    <insert id="insertDiary" parameterType="Diary">
+    <insert id="insertDiary" parameterType="String">
     	INSERT INTO diary(user_id, content)
     	VALUES(#{user_id}, #{content})
     </insert> 

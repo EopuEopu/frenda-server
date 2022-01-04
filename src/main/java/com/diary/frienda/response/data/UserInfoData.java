@@ -1,8 +1,11 @@
 package com.diary.frienda.response.data;
 
+import com.diary.frienda.db.diary.Diary;
 import com.diary.frienda.db.userFriendStatus.UserFriendStatus;
 import com.diary.frienda.response.Data;
+import com.diary.frienda.response.data.sub.FavorData;
 
+// TODO : extend from new Class Type with DiaryInsertionData
 public class UserInfoData implements Data{
 	private String friend_name;
 	private FavorData favor;
@@ -10,13 +13,12 @@ public class UserInfoData implements Data{
 	private String latest_committed_date;
 	private boolean portal_open;
 	
-	public UserInfoData(UserFriendStatus friend, int diary_id, String latest_committed_date, 
-							boolean portal_open) {
-		this.friend_name = friend.getFriend_name();
-		favor = new FavorData(friend.getFavor_value(), 0);
-		this.diary_id = diary_id;
-		this.latest_committed_date = latest_committed_date;
+	public UserInfoData(Diary diary, UserFriendStatus friend, boolean portal_open) {
+		this.diary_id = diary.getDiary_id();
+		this.latest_committed_date = diary.getCommitted_date();
 		this.portal_open = portal_open;
+		favor = new FavorData(friend.getFavor_value(), 0);
+		this.friend_name = friend.getFriend_name();
 	}
 	
 	public String getFriend_name() {

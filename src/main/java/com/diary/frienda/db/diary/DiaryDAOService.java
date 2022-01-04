@@ -2,11 +2,12 @@ package com.diary.frienda.db.diary;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.diary.frienda.response.data.MonthlyDiaries;
+import com.diary.frienda.response.data.sub.MonthlyDiaries;
 
 @Repository
 public class DiaryDAOService implements DiaryDAO{
@@ -38,9 +39,9 @@ public class DiaryDAOService implements DiaryDAO{
 	}
 
 	@Override
-	public void insertDiary(Diary diary) throws Exception {
+	public void insertDiary(String user_id, String content) throws Exception {
 		DiaryMapper mapper = sqlSession.getMapper(DiaryMapper.class);
-		mapper.insertDiary(diary);
+		mapper.insertDiary(user_id, content);
 		
 	}
 

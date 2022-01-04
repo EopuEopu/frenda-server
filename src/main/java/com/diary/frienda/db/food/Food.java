@@ -1,5 +1,7 @@
 package com.diary.frienda.db.food;
 
+import com.diary.frienda.response.data.sub.FoodData;
+
 public class Food {
 	private int food_id;
 	private String food_name;
@@ -41,6 +43,10 @@ public class Food {
 
 	public void setFood_conversation(String food_conversation) {
 		this.food_conversation = food_conversation;
+	}
+	
+	public FoodData convertToData() {
+		return new FoodData(this);
 	}
 	
 }

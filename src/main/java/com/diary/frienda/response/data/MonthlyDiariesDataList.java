@@ -3,6 +3,7 @@ package com.diary.frienda.response.data;
 import java.util.List;
 
 import com.diary.frienda.response.Data;
+import com.diary.frienda.response.data.sub.MonthlyDiaries;
 
 public class MonthlyDiariesDataList implements Data {
 	private List<MonthlyDiaries> monthlyDiaries;

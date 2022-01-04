@@ -1,4 +1,4 @@
-package com.diary.frienda.response.data;
+package com.diary.frienda.response.data.sub;
 
 public class MonthlyDiaries {
 	private int diary_id;

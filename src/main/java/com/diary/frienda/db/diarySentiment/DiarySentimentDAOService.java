@@ -6,7 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.diary.frienda.response.data.NegativeSentimentCount;
+import com.diary.frienda.response.data.sub.NegativeSentimentCount;
 
 @Repository
 public class DiarySentimentDAOService implements DiarySentimentDAO{

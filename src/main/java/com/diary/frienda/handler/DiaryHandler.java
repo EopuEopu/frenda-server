@@ -1,20 +1,51 @@
 package com.diary.frienda.handler;
 
-import com.diary.frienda.clova.Confidence;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import com.diary.frienda.db.diary.Diary;
+import com.diary.frienda.db.diary.DiaryDAOService;
+import com.diary.frienda.db.diarySentiment.DiarySentiment;
+import com.diary.frienda.db.diarySentiment.DiarySentimentDAOService;
+import com.diary.frienda.request.DiaryInsertion;
+import com.diary.frienda.response.data.DiaryViewData;
+import com.diary.frienda.response.data.MonthlyDiariesDataList;
+import com.diary.frienda.response.data.sub.DiaryAllSentiments;
 
+@Service
 public class DiaryHandler {
+	@Autowired
+	DiaryDAOService diaryDAO;
 	
+	@Autowired
+	DiarySentimentDAOService diarySentimentDAO;
 	
-	public static double doRound(double value) {
-		return Math.round(value * 100) / 100.0;
+	@Autowired
+	EncryptHandler encryptH;
+	
+	@Autowired
+	ClovaHandler clovaH;
+	
+	public MonthlyDiariesDataList getMonthlyDiaries(String user_id, String year_month) throws Exception {
+		return new MonthlyDiariesDataList(diaryDAO.getMonthlyDiariesByUserIdAndDate(user_id, year_month));
 	}
-
-	public static Confidence roundValues(Confidence conf) {
-		conf.setNegative(doRound(conf.getNegative()));
-		conf.setPositive(doRound(conf.getPositive()));
-		conf.setNeutral(doRound(conf.getNeutral()));
-		return conf;
+	
+	public int insertDiaryInfoes(String user_id, DiaryInsertion diary) throws Exception {
+		diaryDAO.insertDiary(user_id, diary.getContent());
+		int diary_id = diaryDAO.getDiaryIdByUserId(user_id);
+		diarySentimentDAO.insertDiarySentiment(new DiarySentiment(diary_id, diary.getUser_selected_sentiment(), 
+																	clovaH.getDocumentFromDiary(encryptH.decryptContent(user_id, diary.getContent()))));
+		
+		return diary_id;
+	}
+	
+	public DiaryViewData getDiaryInfoes(String user_id, String diary_id) throws Exception {
+		return new DiaryViewData(diaryDAO.getDiaryByUserIdAndDiaryId(user_id, diary_id),
+							new DiaryAllSentiments(diarySentimentDAO.getDiarySentimentByDiaryId(Integer.parseInt(diary_id))));
+	}
+	
+	public Diary getLatestDiaryInfoes(String user_id) throws Exception {
+		return new Diary(diaryDAO.getDiaryIdByUserId(user_id), diaryDAO.getLatestDiaryDateByUserId(user_id));
 	}
 	
 }

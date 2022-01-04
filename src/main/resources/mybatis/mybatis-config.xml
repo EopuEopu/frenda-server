@@ -14,8 +14,9 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
     	<typeAlias type="com.diary.frienda.db.userFriendStatus.UserFriendStatus" alias="UserFriendStatus"/>
     	<typeAlias type="com.diary.frienda.db.huntedMonsterLog.HuntedMonsterLog" alias="HuntedMonsterLog"/>
     	<typeAlias type="com.diary.frienda.db.request.AddFavorValueRequest" alias="AddFavorValueRequest"/>
-    	<typeAlias type="com.diary.frienda.response.data.MonthlyDiaries" alias="MonthlyDiaries"/>
     	<typeAlias type="com.diary.frienda.db.sentiment.Sentiment" alias="Sentiment"/>
+    	<typeAlias type="com.diary.frienda.response.data.MonthlyDiaries" alias="MonthlyDiaries"/>
     	<typeAlias type="com.diary.frienda.response.data.NegativeSentimentCount" alias="NegativeSentimentCount"/>
+    	<typeAlias type="com.diary.frienda.response.data.SentimentString" alias="SentimentString"/>
     </typeAliases>
 </configuration>

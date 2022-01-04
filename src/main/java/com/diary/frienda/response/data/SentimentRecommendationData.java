@@ -3,10 +3,16 @@ package com.diary.frienda.response.data;
 import java.util.List;
 
 import com.diary.frienda.response.Data;
+import com.diary.frienda.response.data.sub.SentimentString;
 
 public class SentimentRecommendationData implements Data {
 	private String clova_analyzed_sentiment;
 	private List<SentimentString> recommend_sentiments;
+	
+	public SentimentRecommendationData(String clova_analyzed_sentiment, List<SentimentString> recommend_sentiments) {
+		this.clova_analyzed_sentiment = clova_analyzed_sentiment;
+		this.recommend_sentiments = recommend_sentiments;
+	}
 	
 	
 	public String getClova_analyzed_sentiment() {

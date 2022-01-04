@@ -1,4 +1,4 @@
-package com.diary.frienda.response.data;
+package com.diary.frienda.response.data.sub;
 
 public class FavorData {
 	private int favor_value;

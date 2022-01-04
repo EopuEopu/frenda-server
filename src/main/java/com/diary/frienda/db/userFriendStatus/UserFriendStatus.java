@@ -1,5 +1,7 @@
 package com.diary.frienda.db.userFriendStatus;
 
+import com.diary.frienda.response.data.UserFriendStatusData;
+
 public class UserFriendStatus {
 	private String user_id;
 	private String friend_name;
@@ -52,4 +54,7 @@ public class UserFriendStatus {
 		this.favor_updated_date = favor_updated_date;
 	}
 	
+	public UserFriendStatusData convertToData() {
+		return new UserFriendStatusData(this);
+	}
 }

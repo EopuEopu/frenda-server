@@ -32,7 +32,7 @@ public class ClovaHandler {
 	public Document getDocumentFromDiary(String diary) throws JsonMappingException, JsonProcessingException {
 		String response = callClovaSentiment(diary);
 		
-		return convertJsonToDocument(response).getDocument();
+		return convertJsonToDocument(response).getDocument().roundValues();
 	}
 	
 	private String callClovaSentiment(String diary) {		
@@ -78,5 +78,5 @@ public class ClovaHandler {
 		sb.append("{\"content\": \"").append(content).append("\"}");
 		
 		return sb.toString();
-	}	
+	}
 }

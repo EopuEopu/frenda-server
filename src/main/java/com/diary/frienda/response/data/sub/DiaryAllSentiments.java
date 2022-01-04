@@ -1,4 +1,4 @@
-package com.diary.frienda.response.data;
+package com.diary.frienda.response.data.sub;
 
 import com.diary.frienda.db.diarySentiment.DiarySentiment;
 

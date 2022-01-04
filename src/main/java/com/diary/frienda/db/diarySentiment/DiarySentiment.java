@@ -1,6 +1,6 @@
 package com.diary.frienda.db.diarySentiment;
 
-import com.diary.frienda.clova.Confidence;
+import com.diary.frienda.clova.Document;
 
 public class DiarySentiment {
 	private int diary_id;
@@ -10,13 +10,14 @@ public class DiarySentiment {
 	private double neutral_value;
 	private String user_selected_sentiment;
 	
-	public DiarySentiment(int diary_id, String sentiment, String user_selected_sentiment, Confidence conf) {
+	public DiarySentiment(int diary_id, String user_selected_sentiment, Document doc) {
 		this.diary_id = diary_id;
-		this.sentiment = sentiment;
 		this.user_selected_sentiment = user_selected_sentiment;
-		this.negative_value = conf.getNegative();
-		this.positive_value = conf.getPositive();
-		this.neutral_value = conf.getNeutral();
+		
+		this.sentiment = doc.getSentiment();
+		this.negative_value = doc.getConfidence().getNegative();
+		this.positive_value = doc.getConfidence().getPositive();
+		this.neutral_value = doc.getConfidence().getNeutral();
 		}
 	
 	public DiarySentiment(int diary_id, String sentiment, double negative_value, double positive_value, double neutral_value

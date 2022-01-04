@@ -26,5 +26,14 @@ public class Document {
 		this.sentences = sentences;
 	}
 	
-	
+	private double doRound(double value) {
+		return Math.round(value * 100) / 100.0;
+	}
+
+	public Document roundValues() {
+		confidence.setNegative(doRound(confidence.getNegative()));
+		confidence.setPositive(doRound(confidence.getPositive()));
+		confidence.setNeutral(doRound(confidence.getNeutral()));
+		return this;
+	}
 }
