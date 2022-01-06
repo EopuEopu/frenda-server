@@ -15,6 +15,19 @@ public class HuntedMonsterLogDAOService implements HuntedMonsterLogDAO{
 		mapper.insertMonsterLog(hunted_monster_log);
 		
 	}
+
+	@Override
+	public void updateFavorIncreased(String user_id) throws Exception {
+		HuntedMonsterLogMapper mapper = sqlSession.getMapper(HuntedMonsterLogMapper.class);
+		mapper.updateFavorIncreased(user_id);
+		
+	}
+
+	@Override
+	public boolean getFavorIncreasedValue(String user_id) throws Exception {
+		HuntedMonsterLogMapper mapper = sqlSession.getMapper(HuntedMonsterLogMapper.class);
+		return mapper.getFavorIncreasedValue(user_id);
+	}
 	
 	
 }

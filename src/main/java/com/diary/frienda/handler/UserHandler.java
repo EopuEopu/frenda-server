@@ -4,6 +4,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.diary.frienda.db.request.AddFavorValueRequest;
 import com.diary.frienda.db.user.User;
 import com.diary.frienda.db.user.UserDAOService;
 import com.diary.frienda.db.userFriendStatus.UserFriendStatus;
@@ -61,7 +62,7 @@ public class UserHandler {
 	}
 	
 	/**
-	 * insert user data to Database
+	 * insert/update user data to Database
 	 */
 	public void insertNewUserInfo(String user_id) throws Exception {
 		userDAO.insertNewUser(new User(user_id, makeUserKey()));
@@ -69,6 +70,10 @@ public class UserHandler {
 	
 	public void insertNewUserFriend(String user_id, String friend_name) throws Exception {
 		userFriendStatusDAO.insertNewFriend(user_id, friend_name);
+	}
+	
+	public void updateFriendFavor(String user_id, int value) throws Exception {
+		userFriendStatusDAO.addFavorValue(new AddFavorValueRequest(user_id, value));
 	}
 	
 	

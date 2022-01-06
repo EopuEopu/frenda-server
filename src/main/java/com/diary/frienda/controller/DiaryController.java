@@ -35,12 +35,6 @@ public class DiaryController {
 	private UserDAOService userDAO;
 	
 	@Autowired
-	private UserFriendStatusDAOService userFriendStatusDAO;
-	
-	@Autowired
-	private FoodDAOService foodDAO;
-	
-	@Autowired
 	private UserHandler userH;
 	
 	@Autowired
@@ -69,12 +63,13 @@ public class DiaryController {
 		if(userH.isInvalidUser(user_id, diary.getUser_key()))
 			return ResponseHandler.failResponse();
 		
+		// TODO : insertionAction method로 묶어버리기
 		diaryH.insertDiaryInfoes(user_id, diary);
 		
 		if(sentimentH.isNegativeSentiment(diary.getUser_selected_sentiment()))
 			userDAO.addNegativeDiaryCount(user_id);
-		
-		userFriendStatusDAO.addFavorValue(new AddFavorValueRequest(user_id, 1));
+			
+		userH.updateFriendFavor(user_id, 1);
 		
 		return ResponseHandler.successResponse(responseH.insertDiaryData(user_id, diary.getUser_selected_sentiment()));
 	}

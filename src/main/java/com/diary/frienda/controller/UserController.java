@@ -31,7 +31,6 @@ public class UserController {
 	@RequestMapping(value = "/new-friend", method = RequestMethod.GET)
 	public Response makeNewFriend(@RequestParam("userId") String user_id, 
 			@RequestParam("friendName") String friend_name) throws Exception {
-		
 		if(userH.isNotPresentUser(user_id))
 			return ResponseHandler.failResponse();
 		
