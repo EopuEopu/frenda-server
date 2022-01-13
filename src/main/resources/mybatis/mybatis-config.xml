@@ -6,18 +6,18 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 <configuration>
 	<!-- mapper에서  패키지명 + 클래스명으로 사용하기 번거로우므로 설정 -->
 	<typeAliases>
-    	<typeAlias type="com.diary.frienda.db.user.User" alias="User"/>
-    	<typeAlias type="com.diary.frienda.db.test.Test" alias="Test"/>
-    	<typeAlias type="com.diary.frienda.db.diary.Diary" alias="Diary"/>
-    	<typeAlias type="com.diary.frienda.db.diarySentiment.DiarySentiment" alias="DiarySentiment"/>
-    	<typeAlias type="com.diary.frienda.db.food.Food" alias="Food"/>
-    	<typeAlias type="com.diary.frienda.db.userFriendStatus.UserFriendStatus" alias="UserFriendStatus"/>
-    	<typeAlias type="com.diary.frienda.db.huntedMonsterLog.HuntedMonsterLog" alias="HuntedMonsterLog"/>
-    	<typeAlias type="com.diary.frienda.db.request.AddFavorValueRequest" alias="AddFavorValueRequest"/>
-    	<typeAlias type="com.diary.frienda.db.sentiment.Sentiment" alias="Sentiment"/>
+    	<typeAlias type="com.diary.frenda.db.user.User" alias="User"/>
+    	<typeAlias type="com.diary.frenda.db.test.Test" alias="Test"/>
+    	<typeAlias type="com.diary.frenda.db.diary.Diary" alias="Diary"/>
+    	<typeAlias type="com.diary.frenda.db.diarySentiment.DiarySentiment" alias="DiarySentiment"/>
+    	<typeAlias type="com.diary.frenda.db.food.Food" alias="Food"/>
+    	<typeAlias type="com.diary.frenda.db.userFriendStatus.UserFriendStatus" alias="UserFriendStatus"/>
+    	<typeAlias type="com.diary.frenda.db.huntedMonsterLog.HuntedMonsterLog" alias="HuntedMonsterLog"/>
+    	<typeAlias type="com.diary.frenda.db.request.AddFavorValueRequest" alias="AddFavorValueRequest"/>
+    	<typeAlias type="com.diary.frenda.db.sentiment.Sentiment" alias="Sentiment"/>
     	
-    	<typeAlias type="com.diary.frienda.response.data.sub.MonthlyDiaries" alias="MonthlyDiaries"/>
-    	<typeAlias type="com.diary.frienda.response.data.sub.NegativeSentimentCount" alias="NegativeSentimentCount"/>
-    	<typeAlias type="com.diary.frienda.response.data.sub.SentimentString" alias="SentimentString"/>
+    	<typeAlias type="com.diary.frenda.response.data.sub.MonthlyDiaries" alias="MonthlyDiaries"/>
+    	<typeAlias type="com.diary.frenda.response.data.sub.NegativeSentimentCount" alias="NegativeSentimentCount"/>
+    	<typeAlias type="com.diary.frenda.response.data.sub.SentimentString" alias="SentimentString"/>
     </typeAliases>
 </configuration>

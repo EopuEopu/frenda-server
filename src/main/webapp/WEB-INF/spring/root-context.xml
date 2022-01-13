@@ -16,10 +16,10 @@
 	<context:property-placeholder location="classpath:/properties/*.properties"></context:property-placeholder>
 	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-	    <property name="driverClassName" value="${frienda.database.driverClassName}"></property>
-	    <property name="url" value="${frienda.database.url}"></property>
-	    <property name="username" value="${frienda.database.username}"></property>
-	    <property name="password" value="${frienda.database.password}"></property>
+	    <property name="driverClassName" value="${frenda.database.driverClassName}"></property>
+	    <property name="url" value="${frenda.database.url}"></property>
+	    <property name="username" value="${frenda.database.username}"></property>
+	    <property name="password" value="${frenda.database.password}"></property>
 	</bean>
  
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
