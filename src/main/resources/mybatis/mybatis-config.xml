@@ -7,7 +7,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<!-- mapper에서  패키지명 + 클래스명으로 사용하기 번거로우므로 설정 -->
 	<typeAliases>
     	<typeAlias type="com.diary.frenda.db.user.User" alias="User"/>
-    	<typeAlias type="com.diary.frenda.db.test.Test" alias="Test"/>
     	<typeAlias type="com.diary.frenda.db.diary.Diary" alias="Diary"/>
     	<typeAlias type="com.diary.frenda.db.diarySentiment.DiarySentiment" alias="DiarySentiment"/>
     	<typeAlias type="com.diary.frenda.db.food.Food" alias="Food"/>

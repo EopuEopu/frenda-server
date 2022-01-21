@@ -14,15 +14,15 @@ import org.springframework.stereotype.Service;
 public class EncryptHandler {
 	
 	@Value("${frenda.diary.start}")
-	private int subStart;
+	private String subStart;
 	
 	@Value("${frenda.diary.end}")
-	private int subEnd;
+	private String subEnd;
 	
 	private String alg = "AES/CBC/PKCS5Padding";
 	
 	public String encryptContent(String key, String content) throws Exception {
-		key.substring(subStart, subEnd);
+		key.substring(Integer.parseInt(subStart), Integer.parseInt(subEnd));
 		Cipher cipher = Cipher.getInstance(alg);
 		SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(), "AES");
 		IvParameterSpec paramSpec = new IvParameterSpec(key.getBytes());
@@ -33,7 +33,7 @@ public class EncryptHandler {
 	}
 	
 	public String decryptContent(String key, String encryptedContent) throws Exception {
-		key.substring(subStart, subEnd);
+		key.substring(Integer.parseInt(subStart), Integer.parseInt(subEnd));
 		Cipher cipher = Cipher.getInstance(alg);
 		SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(), "AES");
 		IvParameterSpec paramSpec = new IvParameterSpec(key.getBytes());
