@@ -17,6 +17,7 @@ import com.diary.frenda.handler.UserHandler;
 import com.diary.frenda.request.DiaryInsertion;
 import com.diary.frenda.request.DiaryUpdate;
 import com.diary.frenda.request.DiaryView;
+import com.diary.frenda.request.SentimentAnalysis;
 import com.diary.frenda.response.Response;
 import com.diary.frenda.response.data.DiaryUpdateData;
 
@@ -42,12 +43,12 @@ public class DiaryController {
 
 	@RequestMapping(value = "/recommendation", method = RequestMethod.POST)
 	public Response recommendSentiment(@RequestParam("userId") String user_id, 
-			@RequestBody final DiaryInsertion diary) throws Exception {
+			@RequestBody final SentimentAnalysis sent) throws Exception {
 		
-		if(userH.isInvalidUser(user_id, diary.getUser_key()))
+		if(userH.isInvalidUser(user_id, sent.getUser_key()))
 			return ResponseHandler.failResponse();
 		
-		return ResponseHandler.successResponse(sentimentH.getSentimentData(user_id, diary.getContent()));
+		return ResponseHandler.successResponse(sentimentH.getSentimentData(user_id, sent.getContent()));
 	}
 	
 	@RequestMapping(value = "/diary", method = RequestMethod.POST)
