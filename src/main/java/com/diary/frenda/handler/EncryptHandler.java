@@ -1,22 +1,21 @@
 package com.diary.frenda.handler;
 
 import java.util.Base64;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 @Service
-@PropertySource("classpath:/properties/frenda.properties")
 public class EncryptHandler {
 	
-	@Value("${frenda.diary.start}")
+	@Value("#{frenda['frenda.diary.start']}")
 	private String subStart;
 	
-	@Value("${frenda.diary.end}")
+	@Value("#{frenda['frenda.diary.end']}")
 	private String subEnd;
 	
 	private String alg = "AES/CBC/PKCS5Padding";

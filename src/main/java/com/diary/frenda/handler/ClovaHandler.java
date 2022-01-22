@@ -18,15 +18,14 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
-@PropertySource("classpath:/properties/frenda.properties")
 public class ClovaHandler {
-	@Value("${frenda.clova.url}")
+	@Value("#{frenda['frenda.clova.url']}")
 	private String clova_url;
 	
-	@Value("${frenda.clova.id}")
+	@Value("#{frenda['frenda.clova.id']}")
 	private String clova_id;
 	
-	@Value("${frenda.clova.key}")
+	@Value("#{frenda['frenda.clova.key']}")
 	private String clova_key;
 	
 	public Document getDocumentFromDiary(String diary) throws JsonMappingException, JsonProcessingException {

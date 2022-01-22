@@ -38,7 +38,7 @@ public class DiaryController {
 	private SentimentHandler sentimentH;
 	
 	@Autowired
-	ResponseHandler responseH;
+	private ResponseHandler responseH;
 
 	@RequestMapping(value = "/recommendation", method = RequestMethod.POST)
 	public Response recommendSentiment(@RequestParam("userId") String user_id, 
