@@ -4,6 +4,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.diary.frenda.db.huntedMonsterLog.HuntedMonsterLogDAOService;
 import com.diary.frenda.db.request.AddFavorValueRequest;
 import com.diary.frenda.db.user.User;
 import com.diary.frenda.db.user.UserDAOService;
@@ -18,6 +19,9 @@ public class UserHandler {
 	
 	@Autowired
 	UserFriendStatusDAOService userFriendStatusDAO;
+	
+	@Autowired
+	HuntedMonsterLogDAOService huntedMonsterLogDAO;
 	
 	@Autowired
 	private EncryptHandler encryptH;
@@ -51,6 +55,10 @@ public class UserHandler {
 			return false;
 		
 		return true;
+	}
+	
+	public boolean isFavorIncreased(String user_id) throws Exception {
+		return huntedMonsterLogDAO.getFavorIncreasedValue(user_id);
 	}
 	
 	public UserFriendStatus getFriendStatus(String user_id) throws Exception {

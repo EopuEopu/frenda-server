@@ -21,6 +21,7 @@ import com.diary.frenda.request.SentimentAnalysis;
 import com.diary.frenda.response.Response;
 import com.diary.frenda.response.data.DiaryUpdateData;
 
+// handler간 상속관계 설정 필요
 @RestController
 public class DiaryController {
 	@Autowired
@@ -46,9 +47,9 @@ public class DiaryController {
 			@RequestBody final SentimentAnalysis sent) throws Exception {
 		
 		if(userH.isInvalidUser(user_id, sent.getUser_key()))
-			return ResponseHandler.failResponse();
+			return responseH.failResponse();
 		
-		return ResponseHandler.successResponse(sentimentH.getSentimentData(user_id, sent.getContent()));
+		return responseH.successResponse(sentimentH.getSentimentData(user_id, sent.getContent()));
 	}
 	
 	@RequestMapping(value = "/diary", method = RequestMethod.POST)
@@ -56,7 +57,7 @@ public class DiaryController {
 									@RequestBody final DiaryInsertion diary) throws Exception {
 		
 		if(userH.isInvalidUser(user_id, diary.getUser_key()))
-			return ResponseHandler.failResponse();
+			return responseH.failResponse();
 		
 		// TODO : insertionAction method로 묶어버리기
 		diaryH.insertDiaryInfoes(user_id, diary);
@@ -66,7 +67,7 @@ public class DiaryController {
 			
 		userH.updateFriendFavor(user_id, 1);
 		
-		return ResponseHandler.successResponse(responseH.insertDiaryData(user_id, diary.getUser_selected_sentiment()));
+		return responseH.successResponse(responseH.insertDiaryData(user_id, diary.getUser_selected_sentiment()));
 	}
 	
 	@RequestMapping(value = "/diary/list", method = RequestMethod.POST)
@@ -74,9 +75,9 @@ public class DiaryController {
 												@RequestBody final DiaryView diary_view) throws Exception{
 		
 		if(userH.isInvalidUser(user_id, diary_view.getUser_key()))
-			return ResponseHandler.failResponse();
+			return responseH.failResponse();
 
-		return ResponseHandler.successResponse(diaryH.getDiaryInfoes(user_id, diary_id));
+		return responseH.successResponse(diaryH.getDiaryInfoes(user_id, diary_id));
 	}
 	
 	@RequestMapping(value = "/diary/list", method = RequestMethod.GET)
@@ -84,9 +85,9 @@ public class DiaryController {
 									@RequestParam("yearMonth") String year_month) throws Exception {
 		
 		if(userH.isNotPresentUser(user_id))
-			return ResponseHandler.failResponse();		
+			return responseH.failResponse();		
 						
-		return ResponseHandler.successResponse(diaryH.getMonthlyDiaries(user_id, year_month));
+		return responseH.successResponse(diaryH.getMonthlyDiaries(user_id, year_month));
 	}
 	
 	@RequestMapping(value = "/diary", method = RequestMethod.PATCH)
@@ -94,11 +95,11 @@ public class DiaryController {
 									@RequestBody final DiaryUpdate diary) throws Exception {
 		
 		if(userH.isInvalidUser(user_id, diary.getUser_key()))
-			return ResponseHandler.failResponse();
+			return responseH.failResponse();
 		
 		diaryDAO.updateDiaryContent(new Diary(user_id, Integer.parseInt(diary_id), diary.getContent()));
 						
-		return ResponseHandler.successResponse(new DiaryUpdateData(Integer.parseInt(diary_id)));
+		return responseH.successResponse(new DiaryUpdateData(Integer.parseInt(diary_id)));
 	}
 	
 	

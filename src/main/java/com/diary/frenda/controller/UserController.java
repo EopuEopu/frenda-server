@@ -21,40 +21,40 @@ public class UserController {
 	@RequestMapping(value = "/new-user", method = RequestMethod.GET)
 	public Response makeNewUser(@RequestParam("userId") String user_id) throws Exception {
 		if(!userH.isNotPresentUser(user_id))
-			return ResponseHandler.failResponse();
+			return responseH.failResponse();
 		
 		userH.insertNewUserInfo(user_id);
 		
-		return ResponseHandler.successResponse(userH.getUserKeyData(user_id));
+		return responseH.successResponse(userH.getUserKeyData(user_id));
 	}
 	
 	@RequestMapping(value = "/new-friend", method = RequestMethod.GET)
 	public Response makeNewFriend(@RequestParam("userId") String user_id, 
 			@RequestParam("friendName") String friend_name) throws Exception {
 		if(userH.isNotPresentUser(user_id))
-			return ResponseHandler.failResponse();
+			return responseH.failResponse();
 		
 		if(userH.isPresentFriend(user_id))
-			return ResponseHandler.failResponse(userH.getFriendStatus(user_id).convertToData());
+			return responseH.failResponse(userH.getFriendStatus(user_id).convertToData());
 		
 		userH.insertNewUserFriend(user_id, friend_name);
 		
-		return ResponseHandler.successResponse(userH.getFriendStatus(user_id).convertToData());
+		return responseH.successResponse(userH.getFriendStatus(user_id).convertToData());
 	}
 	
 	@RequestMapping(value = "/user-key", method = RequestMethod.GET)
 	public Response getUserKey(@RequestParam("userId") String user_id) throws Exception {
 		if(userH.isNotPresentUser(user_id))
-			return ResponseHandler.failResponse();
+			return responseH.failResponse();
 		
-		return ResponseHandler.successResponse(userH.getUserKeyData(user_id));
+		return responseH.successResponse(userH.getUserKeyData(user_id));
 	}
 	
 	@RequestMapping(value = "/user-info", method = RequestMethod.GET)
 	public Response getUserStatus(@RequestParam("userId") String user_id) throws Exception {		
 		if(userH.isNotPresentUser(user_id))
-			return ResponseHandler.failResponse();
+			return responseH.failResponse();
 		
-		return ResponseHandler.successResponse(responseH.logInData(user_id));
+		return responseH.successResponse(responseH.logInData(user_id));
 	}
 }

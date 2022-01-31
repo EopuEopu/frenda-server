@@ -8,6 +8,8 @@ import com.diary.frenda.response.Response;
 import com.diary.frenda.response.data.DiaryInsertionData;
 import com.diary.frenda.response.data.UserInfoData;
 
+
+// TODO : using interface, extends
 @Service
 public class ResponseHandler {
 	@Autowired
@@ -19,20 +21,21 @@ public class ResponseHandler {
 	@Autowired
 	SentimentHandler sentimentH;
 	
-	public static Response failResponse() {
+	public Response failResponse() {
 		return new Response(500, "FAIL", null);
 	}
 	
-	public static Response failResponse(Data data) {
+	public Response failResponse(Data data) {
 		return new Response(500, "FAIL", data);
 	}
 	
-	public static Response successResponse(Data data) {
+	public Response successResponse(Data data) {
 		return new Response(200, "SUCCESS", data);
 	}
 	
 	public UserInfoData logInData(String user_id) throws Exception {
-		return new UserInfoData(diaryH.getLatestDiaryInfoes(user_id), userH.getFriendStatus(user_id), userH.getPortalOpen(user_id));
+		return new UserInfoData(diaryH.getLatestDiaryInfoes(user_id), userH.getFriendStatus(user_id), 
+				userH.getPortalOpen(user_id), userH.isFavorIncreased(user_id));
 	}
 	
 	public DiaryInsertionData insertDiaryData(String user_id, String sentiment) throws Exception {

@@ -24,6 +24,9 @@ public class MonsterController {
 	private UserHandler userH;
 	
 	@Autowired
+	private ResponseHandler responseH;
+	
+	@Autowired
 	UserDAOService userDAO;
 	
 	@Autowired
@@ -38,23 +41,23 @@ public class MonsterController {
 	@RequestMapping(value = "/monster-log", method = RequestMethod.GET)
 	public Response huntMonster(@RequestParam("userId") String user_id) throws Exception {
 		if(userH.isNotPresentUser(user_id))
-			return ResponseHandler.failResponse();
+			return responseH.failResponse();
 		
 		huntedMonsterLogDAO.insertMonsterLog(new HuntedMonsterLog(user_id));
 		userDAO.updateNegativeDiaryCountToZero(user_id);
 		
-		return ResponseHandler.successResponse(new AfterMonsterData(diarySentimentDAO.getNegativeSentimentCount(user_id)));
+		return responseH.successResponse(new AfterMonsterData(diarySentimentDAO.getNegativeSentimentCount(user_id)));
 	}
 	
 	@RequestMapping(value = "/favor-value", method = RequestMethod.GET)
 	public Response addFavorAfterHuntMonster(@RequestParam("userId") String user_id) throws Exception {
 		if(userH.isNotPresentUser(user_id) || huntedMonsterLogDAO.getFavorIncreasedValue(user_id))
-			return ResponseHandler.failResponse();
+			return responseH.failResponse();
 		
 		userH.updateFriendFavor(user_id, 3);
 		huntedMonsterLogDAO.updateFavorIncreased(user_id);
 		
-		return ResponseHandler.successResponse(new AfterFavorUpData(new FavorData(userFriendStatusDAO.getFavorValueByUserId(user_id), 3)));
+		return responseH.successResponse(new AfterFavorUpData(new FavorData(userFriendStatusDAO.getFavorValueByUserId(user_id), 3)));
 	}
 	
 }
