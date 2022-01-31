@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.diary.frienda.db.diary.DiaryMapper">
+<mapper namespace="com.diary.frenda.db.diary.DiaryMapper">
     <resultMap type="Diary" id="ResultDiary">
         <result property="diary_id" column="diary_id"></result>
         <result property="user_id" column="user_id"></result>
@@ -25,9 +25,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
     <select id="getDiaryIdByUserId" resultType="_int" parameterType="String">
-    	SELECT MAX(diary_id)
+    	SELECT IFNULL(MAX(diary_id), -1)
     	FROM diary
     	WHERE user_id = #{user_id} AND DATE_FORMAT(committed_date, "%Y-%m-%d") = CURDATE()
+    </select>
+    
+    <select id="getLatestDiaryDateByUserId" resultType="String" parameterType="String">
+    	SELECT MAX(committed_date)
+    	FROM diary
+    	WHERE user_id = #{user_id}
     </select>
     
     <select id="getDiaryByUserIdAndDiaryId" resultMap="ResultDiary" parameterType="String">
@@ -41,9 +47,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	FROM diary, diary_sentiment
     	WHERE diary.user_id = #{user_id} AND diary.diary_id = diary_sentiment.diary_id
     	  		AND date_format(committed_date, '%Y-%m') = #{year_month}
+  	  	ORDER BY committed_date DESC
     </select>
     
-    <insert id="insertDiary" parameterType="Diary">
+    <insert id="insertDiary" parameterType="String">
     	INSERT INTO diary(user_id, content)
     	VALUES(#{user_id}, #{content})
     </insert> 

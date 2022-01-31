@@ -2,7 +2,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.diary.frienda.db.diarySentiment.DiarySentimentMapper">
+<mapper namespace="com.diary.frenda.db.diarySentiment.DiarySentimentMapper">
     <resultMap type="DiarySentiment" id="ResultDiarySentiment">
         <result property="diary_id" column="diary_id"></result>
         <result property="sentiment" column="sentiment"></result>
@@ -10,7 +10,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="positive_value" column="positive_value"></result>
         <result property="neutral_value" column="neutral_value"></result>
         <result property="user_selected_sentiment" column="user_selected_sentiment"></result>
-    </resultMap>    
+    </resultMap>
+    
+     <resultMap type="NegativeSentimentCount" id="ResultNegativeSentimentCount">
+        <result property="user_selected_sentiment" column="user_selected_sentiment"></result>
+        <result property="count" column="count"></result>
+    </resultMap>   
     
     <!-- TODO : diarysentiment 테이블과 조인하여 한번에 sentiment값 가져오기 -->
     <select id="getDiarySentimentByDiaryId" resultMap="ResultDiarySentiment" parameterType="_int">
@@ -19,9 +24,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	WHERE diary_id = ${diary_id}
     </select>
     
+    <select id="getNegativeSentimentsByUserId" resultMap="ResultDiarySentiment" parameterType="_int">
+    	SELECT *
+    	FROM diary_sentiment
+    	WHERE diary_id = ${diary_id}
+    </select>
+    
+    <select id="getNegativeSentimentCount" resultMap="ResultNegativeSentimentCount" parameterType="String">
+    	SELECT dds.user_selected_sentiment AS sentiment, COUNT(dds.user_selected_sentiment) AS count
+		FROM (
+		   	SELECT user_selected_sentiment 
+		   	FROM diary_sentiment ds, diary d
+		   	WHERE d.user_id = #{user_id} 
+	   			AND d.diary_id = ds.diary_id 
+		   		AND EXISTS(
+		        	SELECT detailed_sentiment
+		         	FROM sentiment
+		         	WHERE appr_sentiment = 'negative'
+		            AND ds.user_selected_sentiment = detailed_sentiment)
+	   		ORDER BY d.committed_date DESC
+		   	LIMIT 3) AS dds
+		GROUP BY user_selected_sentiment
+    </select>
+    
     <insert id="insertDiarySentiment" parameterType="DiarySentiment">
     	INSERT INTO diary_sentiment
     	VALUES(#{diary_id}, #{sentiment}, #{negative_value}, #{positive_value}, #{neutral_value}, #{user_selected_sentiment})
-    </insert> 
+    </insert>
+    
+    <insert id="insertDiaryUserSentiment" parameterType="DiarySentiment">
+    	INSERT INTO diary_sentiment(diary_id, user_selected_sentiment)
+    	VALUES(#{diary_id}, #{user_selected_sentiment})
+    </insert>
     
 </mapper>

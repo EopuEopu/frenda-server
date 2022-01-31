@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.diary.frenda.db.sentiment.SentimentMapper">
+    <resultMap type="Sentiment" id="ResultSentiment">
+        <result property="appr_sentiment" column="appr_sentiment"></result>
+        <result property="detailed_sentiment" column="detailed_sentiment"></result>
+    </resultMap>
+    
+    <resultMap type="SentimentString" id="ResultSentimentString">
+        <result property="sentiment" column="detailed_sentiment"></result>
+    </resultMap>
+        
+    <select id="getApprSentimentByDetailedSentiment" resultType="String" parameterType="String">
+    	SELECT appr_sentiment
+    	FROM sentiment
+    	WHERE detailed_sentiment = #{detailed_sentiment}
+    </select>
+    
+    <select id="getDetailedSentimentByApprSentiment" resultMap="ResultSentimentString" parameterType="String">
+    	SELECT detailed_sentiment
+    	FROM sentiment
+    	WHERE appr_sentiment = #{appr_sentiment}
+    </select>
+     
+</mapper>
