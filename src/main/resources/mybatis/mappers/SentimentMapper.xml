@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.diary.frenda.db.sentiment.SentimentMapper">
+<mapper namespace="com.eopueopu.frenda.db.sentiment.SentimentMapper">
     <resultMap type="Sentiment" id="ResultSentiment">
         <result property="appr_sentiment" column="appr_sentiment"></result>
         <result property="detailed_sentiment" column="detailed_sentiment"></result>
