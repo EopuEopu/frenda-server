@@ -14,6 +14,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
     	<typeAlias type="com.eopueopu.frenda.db.huntedMonsterLog.HuntedMonsterLog" alias="HuntedMonsterLog"/>
     	<typeAlias type="com.eopueopu.frenda.db.request.AddFavorValueRequest" alias="AddFavorValueRequest"/>
     	<typeAlias type="com.eopueopu.frenda.db.sentiment.Sentiment" alias="Sentiment"/>
+    	<typeAlias type="com.eopueopu.frenda.db.clovaTemp.ClovaTemp" alias="ClovaTemp"/>
     	
     	<typeAlias type="com.eopueopu.frenda.response.data.sub.MonthlyDiaries" alias="MonthlyDiaries"/>
     	<typeAlias type="com.eopueopu.frenda.response.data.sub.NegativeSentimentCount" alias="NegativeSentimentCount"/>
