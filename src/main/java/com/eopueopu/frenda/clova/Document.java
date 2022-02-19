@@ -2,10 +2,20 @@ package com.eopueopu.frenda.clova;
 
 import java.util.ArrayList;
 
+import com.eopueopu.frenda.db.clovaTemp.ClovaTemp;
+
 public class Document {
 	private String sentiment;
 	private Confidence confidence;
 	private ArrayList<Sentences> sentences;
+	
+	// default constructor for serializable
+	public Document() {	}
+	
+	public Document(ClovaTemp temp) {
+		this.sentiment = temp.getSentiment();
+		this.confidence = new Confidence(temp);
+	}
 	
 	public String getSentiment() {
 		return sentiment;
@@ -35,5 +45,9 @@ public class Document {
 		confidence.setPositive(doRound(confidence.getPositive()));
 		confidence.setNeutral(doRound(confidence.getNeutral()));
 		return this;
+	}
+	
+	public ClovaTemp convertDocToClovaTemp(String user_id, String content) {
+		return new ClovaTemp(this, user_id, content);
 	}
 }

@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.eopueopu.frenda.db.clovaTemp.ClovaTemp">
+<mapper namespace="com.eopueopu.frenda.db.clovaTemp.ClovaTempMapper">
     <resultMap type="ClovaTemp" id="ResultClovaTemp">
         <result property="user_id" column="user_id"></result>
         <result property="content" column="content"></result>
@@ -14,21 +14,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="analyzed_date" column="analyzed_date"></result>
     </resultMap>
     
-    <select id="getTodayTempDataByUserId" resultType="ResultClovaTemp" parameterType="String">
+    <select id="getTodayTempDataByUserId" resultMap="ResultClovaTemp" parameterType="String">
     	SELECT *
     	FROM clova_temp
-    	WHERE user_id = #{user_id} AND DATE_FORMAT(analyzied_date, "%Y-%m-%d") = CURDATE()
+    	WHERE user_id = #{user_id} AND DATE_FORMAT(analyzed_date, "%Y-%m-%d") = CURDATE()
+    	LIMIT 1
     </select>
     
     <insert id="insertTodayTempData" parameterType="ClovaTemp">
-    	INSERT INTO clova_temp
+    	INSERT INTO clova_temp(user_id, content, sentiment, negative_value, positive_value, neutral_value)
     	VALUES(#{user_id}, #{content}, #{sentiment}, #{negative_value}, #{positive_value}, #{neutral_value})
     </insert> 
     
     <delete id="deleteTodayTempData" parameterType="String">
     	DELETE
     	FROM clova_temp
-    	WHERE user_id = #{user_id} AND DATE_FORMAT(analyzied_date, "%Y-%m-%d") = CURDATE()
+    	WHERE user_id = #{user_id} AND DATE_FORMAT(analyzed_date, "%Y-%m-%d") = CURDATE()
     </delete>
     
 </mapper>
