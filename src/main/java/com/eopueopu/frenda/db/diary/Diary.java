@@ -36,7 +36,7 @@ public class Diary {
 		return content;
 	}
 	public String getCommitted_date() {
-		return committed_date.toString();
+		return committed_date;
 	}
 	public String getUpdated_date() {
 		return updated_date;

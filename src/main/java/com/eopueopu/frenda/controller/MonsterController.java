@@ -41,7 +41,7 @@ public class MonsterController {
 	@RequestMapping(value = "/monster-log", method = RequestMethod.GET)
 	public Response huntMonster(@RequestParam("userId") String user_id) throws Exception {
 		if(userH.isNotPresentUser(user_id))
-			return responseH.failResponse();
+			return responseH.failResponse("NotPresentUserException");
 		
 		huntedMonsterLogDAO.insertMonsterLog(new HuntedMonsterLog(user_id));
 		userDAO.updateNegativeDiaryCountToZero(user_id);

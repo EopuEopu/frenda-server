@@ -1,7 +1,5 @@
 package com.eopueopu.frenda.db.user;
 
-import java.util.List;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -10,12 +8,6 @@ import org.springframework.stereotype.Repository;
 public class UserDAOService implements UserDAO{
 	@Autowired
 	private SqlSession sqlSession;
-	
-	@Override
-	public List<User> getUserInfo() throws Exception {
-		UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-		return mapper.getUserInfo();
-	}
 
 	@Override
 	public String getUserKey(String user_id) throws Exception {

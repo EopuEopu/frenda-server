@@ -10,11 +10,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="negative_diary_count" column="negative_diary_count" />
     </resultMap>
     
-    <select id="getUserInfo" resultMap="ResultUser">
-    	SELECT user_id, user_key
-    	FROM user
-    </select>
-    
     <select id="getUserKey" resultType="String" parameterType="String">
     	SELECT user_key
     	FROM user

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eopueopu.frenda.exception.user.NotFoundFriendException;
 import com.eopueopu.frenda.handler.ResponseHandler;
 import com.eopueopu.frenda.handler.UserHandler;
 import com.eopueopu.frenda.response.Response;
@@ -21,7 +22,7 @@ public class UserController {
 	@RequestMapping(value = "/new-user", method = RequestMethod.GET)
 	public Response makeNewUser(@RequestParam("userId") String user_id) throws Exception {
 		if(!userH.isNotPresentUser(user_id))
-			return responseH.failResponse();
+			return responseH.failResponse("NotPresentUserException");
 		
 		userH.insertNewUserInfo(user_id);
 		
@@ -32,9 +33,9 @@ public class UserController {
 	public Response makeNewFriend(@RequestParam("userId") String user_id, 
 			@RequestParam("friendName") String friend_name) throws Exception {
 		if(userH.isNotPresentUser(user_id))
-			return responseH.failResponse();
+			return responseH.failResponse("NotPresentUserException");
 		
-		if(userH.isPresentFriend(user_id))
+		if(userH.hasFriend(user_id))
 			return responseH.failResponse(userH.getFriendStatus(user_id).convertToData());
 		
 		userH.insertNewUserFriend(user_id, friend_name);
@@ -45,16 +46,22 @@ public class UserController {
 	@RequestMapping(value = "/user-key", method = RequestMethod.GET)
 	public Response getUserKey(@RequestParam("userId") String user_id) throws Exception {
 		if(userH.isNotPresentUser(user_id))
-			return responseH.failResponse();
+			return responseH.failResponse("NotPresentUserException");
 		
 		return responseH.successResponse(userH.getUserKeyData(user_id));
 	}
 	
+	// /new-friend를 하기 전 호출 시 
 	@RequestMapping(value = "/user-info", method = RequestMethod.GET)
 	public Response getUserStatus(@RequestParam("userId") String user_id) throws Exception {		
 		if(userH.isNotPresentUser(user_id))
-			return responseH.failResponse();
+			return responseH.failResponse("NotPresentUserException");
 		
-		return responseH.successResponse(responseH.logInData(user_id));
+		try {
+			return responseH.successResponse(responseH.logInData(user_id));
+		} catch(NotFoundFriendException e) {
+			return responseH.failResponse(e.getMessage());
+		}
+		
 	}
 }

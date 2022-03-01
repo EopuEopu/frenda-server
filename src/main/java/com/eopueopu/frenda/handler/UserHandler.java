@@ -41,7 +41,7 @@ public class UserHandler {
 		return (userDAO.getUserValidation(user_id, user_key) < 1);
 	}
 	
-	public boolean isPresentFriend(String user_id) throws Exception {
+	public boolean hasFriend(String user_id) throws Exception {
 		return (userFriendStatusDAO.checkUserFriendByUserId(user_id) > 0);
 	}
 	

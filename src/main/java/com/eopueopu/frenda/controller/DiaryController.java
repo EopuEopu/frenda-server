@@ -47,7 +47,7 @@ public class DiaryController {
 			@RequestBody final SentimentAnalysis sent) throws Exception {
 		
 		if(userH.isInvalidUser(user_id, sent.getUser_key()))
-			return responseH.failResponse();
+			return responseH.failResponse("NotValidUserException");
 		
 		return responseH.successResponse(sentimentH.getSentimentData(user_id, sent.getContent()));
 	}
@@ -57,7 +57,7 @@ public class DiaryController {
 									@RequestBody final DiaryInsertion diary) throws Exception {
 		
 		if(userH.isInvalidUser(user_id, diary.getUser_key()))
-			return responseH.failResponse();
+			return responseH.failResponse("NotValidUserException");
 		
 		// TODO : insertionAction method로 묶어버리기
 		diaryH.insertDiaryInfoes(user_id, diary);
@@ -75,7 +75,7 @@ public class DiaryController {
 												@RequestBody final DiaryView diary_view) throws Exception{
 		
 		if(userH.isInvalidUser(user_id, diary_view.getUser_key()))
-			return responseH.failResponse();
+			return responseH.failResponse("NotValidUserException");
 
 		return responseH.successResponse(diaryH.getDiaryInfoes(user_id, diary_id));
 	}
@@ -85,7 +85,7 @@ public class DiaryController {
 									@RequestParam("yearMonth") String year_month) throws Exception {
 		
 		if(userH.isNotPresentUser(user_id))
-			return responseH.failResponse();		
+			return responseH.failResponse("NotPresentUserException");		
 						
 		return responseH.successResponse(diaryH.getMonthlyDiaries(user_id, year_month));
 	}
@@ -95,7 +95,7 @@ public class DiaryController {
 									@RequestBody final DiaryUpdate diary) throws Exception {
 		
 		if(userH.isInvalidUser(user_id, diary.getUser_key()))
-			return responseH.failResponse();
+			return responseH.failResponse("NotValidUserException");
 		
 		diaryDAO.updateDiaryContent(new Diary(user_id, Integer.parseInt(diary_id), diary.getContent()));
 						
