@@ -3,7 +3,7 @@
 ## Frenda?
 ### 일기를 작성하여 상상친구와 유대감을 쌓는 다이어리 어플리케이션
 
-## Skill stacks in Frenda
+## Skill stacks in Frenda Server
 ### Basics
 - Spring Framework, MySQL
 
