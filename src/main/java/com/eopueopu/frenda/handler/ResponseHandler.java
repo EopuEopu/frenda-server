@@ -23,16 +23,12 @@ public class ResponseHandler {
 	@Autowired
 	SentimentHandler sentimentH;
 	
-	public Response failResponse() {
-		return new Response(500, "FAIL", null);
-	}
-	
 	public Response failResponse(String msg) {
 		return new Response(500, msg, null);
 	}
 	
-	public Response failResponse(Data data) {
-		return new Response(500, "FAIL", data);
+	public Response failResponse(String msg, Data data) {
+		return new Response(500, msg, data);
 	}
 	
 	public Response successResponse(Data data) {

@@ -81,13 +81,14 @@ public class DiaryController {
 	}
 	
 	@RequestMapping(value = "/diary/list", method = RequestMethod.GET)
-	public Response viewAllDiaries(@RequestParam("userId") String user_id,
-									@RequestParam("yearMonth") String year_month) throws Exception {
+	public Response viewAllDiaries(@RequestParam("userId") String user_id, @RequestParam("yearMonth") String year_month) {
+		try {
+			userH.isNotPresentUser(user_id);
+			return responseH.successResponse(diaryH.getMonthlyDiaries(user_id, year_month));
+		} catch(Exception e) {
+			return responseH.failResponse(e.getMessage());
+		}				
 		
-		if(userH.isNotPresentUser(user_id))
-			return responseH.failResponse("NotPresentUserException");		
-						
-		return responseH.successResponse(diaryH.getMonthlyDiaries(user_id, year_month));
 	}
 	
 	@RequestMapping(value = "/diary", method = RequestMethod.PATCH)

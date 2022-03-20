@@ -40,24 +40,35 @@ public class MonsterController {
 	
 	@RequestMapping(value = "/monster-log", method = RequestMethod.GET)
 	public Response huntMonster(@RequestParam("userId") String user_id) throws Exception {
-		if(userH.isNotPresentUser(user_id))
-			return responseH.failResponse("NotPresentUserException");
-		
-		huntedMonsterLogDAO.insertMonsterLog(new HuntedMonsterLog(user_id));
-		userDAO.updateNegativeDiaryCountToZero(user_id);
-		
-		return responseH.successResponse(new AfterMonsterData(diarySentimentDAO.getNegativeSentimentCount(user_id)));
+		try {
+			userH.isNotPresentUser(user_id);
+			huntedMonsterLogDAO.insertMonsterLog(new HuntedMonsterLog(user_id));
+			userDAO.updateNegativeDiaryCountToZero(user_id);
+			
+			return responseH.successResponse(new AfterMonsterData(diarySentimentDAO.getNegativeSentimentCount(user_id)));
+		} catch(Exception e) {
+			return responseH.failResponse(e.getMessage());
+		}
 	}
 	
 	@RequestMapping(value = "/favor-value", method = RequestMethod.GET)
 	public Response addFavorAfterHuntMonster(@RequestParam("userId") String user_id) throws Exception {
-		if(userH.isNotPresentUser(user_id) || huntedMonsterLogDAO.getFavorIncreasedValue(user_id))
-			return responseH.failResponse();
+		try {
+			userH.isNotPresentUser(user_id);
+			if(huntedMonsterLogDAO.getFavorIncreasedValue(user_id))
+				return responseH.failResponse("CannotIncreaseFavor");
+			
+			userH.updateFriendFavor(user_id, 3);
+			huntedMonsterLogDAO.updateFavorIncreased(user_id);
+			
+			return responseH.successResponse(new AfterFavorUpData(new FavorData(userFriendStatusDAO.getFavorValueByUserId(user_id), 3)));
+			
+		}catch(Exception e) {
+			return responseH.failResponse(e.getMessage());
+		}
 		
-		userH.updateFriendFavor(user_id, 3);
-		huntedMonsterLogDAO.updateFavorIncreased(user_id);
 		
-		return responseH.successResponse(new AfterFavorUpData(new FavorData(userFriendStatusDAO.getFavorValueByUserId(user_id), 3)));
+		
 	}
 	
 }

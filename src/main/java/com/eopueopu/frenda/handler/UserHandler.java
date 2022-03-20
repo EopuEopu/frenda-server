@@ -10,6 +10,8 @@ import com.eopueopu.frenda.db.user.User;
 import com.eopueopu.frenda.db.user.UserDAOService;
 import com.eopueopu.frenda.db.userFriendStatus.UserFriendStatus;
 import com.eopueopu.frenda.db.userFriendStatus.UserFriendStatusDAOService;
+import com.eopueopu.frenda.exception.user.FriendsCountOutOfBoundsException;
+import com.eopueopu.frenda.exception.user.NotPresentUserException;
 import com.eopueopu.frenda.response.data.UserKeyData;
 
 @Service
@@ -26,14 +28,17 @@ public class UserHandler {
 	@Autowired
 	private EncryptHandler encryptH;
 	
+	static final private int MAX_FRIEND_COUNT = 1;
+	
 	/**
 	 * check existence of user information
 	 * @param user_id
 	 * @return boolean
 	 * @throws Exception
 	 */
-	public boolean isNotPresentUser(String user_id) throws Exception {
-		return (userDAO.checkUserId(user_id) < 1);
+	public void isNotPresentUser(String user_id) throws Exception {
+		if(userDAO.checkUserId(user_id) < 1)
+			throw new NotPresentUserException();
 	}
 	
 	public boolean isInvalidUser(String user_id, String encrypted_key) throws Exception {
@@ -41,8 +46,9 @@ public class UserHandler {
 		return (userDAO.getUserValidation(user_id, user_key) < 1);
 	}
 	
-	public boolean hasFriend(String user_id) throws Exception {
-		return (userFriendStatusDAO.checkUserFriendByUserId(user_id) > 0);
+	public void hasFullFriends(String user_id) throws Exception {
+		if(userFriendStatusDAO.checkUserFriendByUserId(user_id) == MAX_FRIEND_COUNT)
+			throw new FriendsCountOutOfBoundsException();
 	}
 	
 	
