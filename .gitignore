@@ -33,3 +33,5 @@ hs_err_pid*
 .metadata/
 src/test/resources/log4j.xml
 target/
+bin/
+.settings/
