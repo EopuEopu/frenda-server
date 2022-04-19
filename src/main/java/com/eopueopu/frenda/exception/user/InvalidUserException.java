@@ -1,6 +1,8 @@
 package com.eopueopu.frenda.exception.user;
 
-public class InvalidUserException extends Exception {
+import com.eopueopu.frenda.exception.FrendaException;
+
+public class InvalidUserException extends FrendaException {
 	private static final long serialVersionUID = 5351757135230038756L;
 
 	public InvalidUserException() {

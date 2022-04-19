@@ -1,8 +1,8 @@
 package com.eopueopu.frenda.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,14 +11,18 @@ import com.eopueopu.frenda.db.huntedMonsterLog.HuntedMonsterLog;
 import com.eopueopu.frenda.db.huntedMonsterLog.HuntedMonsterLogDAOService;
 import com.eopueopu.frenda.db.user.UserDAOService;
 import com.eopueopu.frenda.db.userFriendStatus.UserFriendStatusDAOService;
-import com.eopueopu.frenda.handler.ResponseHandler;
+import com.eopueopu.frenda.exception.FrendaExceptionType;
 import com.eopueopu.frenda.handler.UserHandler;
+import com.eopueopu.frenda.handler.util.ResponseHandler;
 import com.eopueopu.frenda.response.Response;
 import com.eopueopu.frenda.response.data.AfterFavorUpData;
 import com.eopueopu.frenda.response.data.AfterMonsterData;
+import com.eopueopu.frenda.response.data.error.ErrorData;
 import com.eopueopu.frenda.response.data.sub.FavorData;
 
+//@Api(tags = "몬스터 사냥 관련 API")
 @RestController
+@RequestMapping("/monster")
 public class MonsterController {
 	@Autowired
 	private UserHandler userH;
@@ -27,45 +31,37 @@ public class MonsterController {
 	private ResponseHandler responseH;
 	
 	@Autowired
-	UserDAOService userDAO;
+	private UserDAOService userDAO;
 	
 	@Autowired
-	UserFriendStatusDAOService userFriendStatusDAO;
+	private UserFriendStatusDAOService userFriendStatusDAO;
 	
 	@Autowired
-	DiarySentimentDAOService diarySentimentDAO;
+	private DiarySentimentDAOService diarySentimentDAO;
 	
 	@Autowired
-	HuntedMonsterLogDAOService huntedMonsterLogDAO;
+	private HuntedMonsterLogDAOService huntedMonsterLogDAO;
 	
-	@RequestMapping(value = "/monster-log", method = RequestMethod.GET)
+	@GetMapping("/log")
 	public Response huntMonster(@RequestParam("userId") String user_id) throws Exception {
-		try {
-			userH.isNotPresentUser(user_id);
-			huntedMonsterLogDAO.insertMonsterLog(new HuntedMonsterLog(user_id));
-			userDAO.updateNegativeDiaryCountToZero(user_id);
-			
-			return responseH.successResponse(new AfterMonsterData(diarySentimentDAO.getNegativeSentimentCount(user_id)));
-		} catch(Exception e) {
-			return responseH.failResponse(e.getMessage());
-		}
+		userH.isNotPresentUser(user_id, false);
+		huntedMonsterLogDAO.insertMonsterLog(new HuntedMonsterLog(user_id));
+		userDAO.updateNegativeDiaryCountToZero(user_id);
+		
+		return responseH.getForm(new AfterMonsterData(diarySentimentDAO.getNegativeSentimentCount(user_id)));
 	}
 	
-	@RequestMapping(value = "/favor-value", method = RequestMethod.GET)
+	@GetMapping("/favor-value")
 	public Response addFavorAfterHuntMonster(@RequestParam("userId") String user_id) throws Exception {
-		try {
-			userH.isNotPresentUser(user_id);
-			if(huntedMonsterLogDAO.getFavorIncreasedValue(user_id))
-				return responseH.failResponse("CannotIncreaseFavor");
-			
-			userH.updateFriendFavor(user_id, 3);
-			huntedMonsterLogDAO.updateFavorIncreased(user_id);
-			
-			return responseH.successResponse(new AfterFavorUpData(new FavorData(userFriendStatusDAO.getFavorValueByUserId(user_id), 3)));
-			
-		}catch(Exception e) {
-			return responseH.failResponse(e.getMessage());
-		}
+		userH.isNotPresentUser(user_id, false);
+		
+		if(huntedMonsterLogDAO.getFavorIncreasedValue(user_id))
+			return responseH.getForm(new ErrorData(FrendaExceptionType.InvalidIncreaseFavorConditionException));
+		
+		userH.updateFriendFavor(user_id, 3);
+		huntedMonsterLogDAO.updateFavorIncreased(user_id);
+		
+		return responseH.getForm(new AfterFavorUpData(new FavorData(userFriendStatusDAO.getFavorValueByUserId(user_id), 3)));
 		
 		
 		

@@ -1,6 +1,8 @@
 package com.eopueopu.frenda.exception.monster;
 
-public class InvalidIncreaseFavorConditionException extends Exception {
+import com.eopueopu.frenda.exception.FrendaException;
+
+public class InvalidIncreaseFavorConditionException extends FrendaException {
 	private static final long serialVersionUID = -4612109786574780132L;
 
 	public InvalidIncreaseFavorConditionException() {

@@ -1,19 +1,20 @@
 package com.eopueopu.frenda.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eopueopu.frenda.db.diary.Diary;
 import com.eopueopu.frenda.db.diary.DiaryDAOService;
 import com.eopueopu.frenda.db.user.UserDAOService;
 import com.eopueopu.frenda.handler.DiaryHandler;
-import com.eopueopu.frenda.handler.ResponseHandler;
 import com.eopueopu.frenda.handler.SentimentHandler;
 import com.eopueopu.frenda.handler.UserHandler;
+import com.eopueopu.frenda.handler.util.ResponseHandler;
 import com.eopueopu.frenda.request.DiaryInsertion;
 import com.eopueopu.frenda.request.DiaryUpdate;
 import com.eopueopu.frenda.request.DiaryView;
@@ -21,8 +22,13 @@ import com.eopueopu.frenda.request.SentimentAnalysis;
 import com.eopueopu.frenda.response.Response;
 import com.eopueopu.frenda.response.data.DiaryUpdateData;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+
 // handler간 상속관계 설정 필요
+//@Api(tags = {"일기 CRUD 및 감정 추천용 API"})
 @RestController
+@RequestMapping("/diary")
 public class DiaryController {
 	@Autowired
 	private DiaryDAOService diaryDAO;
@@ -31,76 +37,94 @@ public class DiaryController {
 	private UserDAOService userDAO;
 	
 	@Autowired
-	private UserHandler userH;
+	private UserHandler user;
 	
 	@Autowired
-	private DiaryHandler diaryH;
+	private DiaryHandler diary;
 	
 	@Autowired
-	private SentimentHandler sentimentH;
+	private SentimentHandler sentiment;
 	
 	@Autowired
-	private ResponseHandler responseH;
+	private ResponseHandler response;
 
-	@RequestMapping(value = "/recommendation", method = RequestMethod.POST)
-	public Response recommendSentiment(@RequestParam("userId") String user_id, 
-			@RequestBody final SentimentAnalysis sent) throws Exception {
+	@PostMapping("/recommendation")
+//	@ApiOperation(value = "일기 내용에 대한 감정 추천", notes = "일기 작성 완료 전 감정 추천을 위해 Clova Sentiment를 Call")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "userId", value = "사용자 아이디", required = true, 
+        					dataType = "string", paramType = "query", defaultValue = "abcdefghijklmnop")
+    })
+	public Response recommendSentiment(String userId, @RequestBody final SentimentAnalysis sent) throws Exception {
 		
-		if(userH.isInvalidUser(user_id, sent.getUser_key()))
-			return responseH.failResponse("NotValidUserException");
+    	user.isInvalidUser(userId, sent.getUser_key());
 		
-		return responseH.successResponse(sentimentH.getSentimentData(user_id, sent.getContent()));
+		return response.getForm(sentiment.getSentimentData(userId, sent.getContent()));
 	}
 	
-	@RequestMapping(value = "/diary", method = RequestMethod.POST)
-	public Response insertDiary(@RequestParam("userId") String user_id, 
-									@RequestBody final DiaryInsertion diary) throws Exception {
+    @PostMapping("/new")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "userId", value = "사용자 아이디", required = true, 
+        					dataType = "string", paramType = "query", defaultValue = "abcdefghijklmnop")
+    })
+	public Response insertDiary(String userId, @RequestBody final DiaryInsertion diaryData) throws Exception {
 		
-		if(userH.isInvalidUser(user_id, diary.getUser_key()))
-			return responseH.failResponse("NotValidUserException");
+    	user.isInvalidUser(userId, diaryData.getUser_key());
 		
 		// TODO : insertionAction method로 묶어버리기
-		diaryH.insertDiaryInfoes(user_id, diary);
+		diary.insertDiaryInfoes(userId, diaryData);
 		
-		if(sentimentH.isNegativeSentiment(diary.getUser_selected_sentiment()))
-			userDAO.addNegativeDiaryCount(user_id);
+		if(sentiment.isNegativeSentiment(diaryData.getUser_selected_sentiment()))
+			userDAO.addNegativeDiaryCount(userId);
 			
-		userH.updateFriendFavor(user_id, 1);
+		user.updateFriendFavor(userId, 1); // 여기까지
 		
-		return responseH.successResponse(responseH.insertDiaryData(user_id, diary.getUser_selected_sentiment()));
+		return response.getForm(response.insertDiaryData(userId, diaryData.getUser_selected_sentiment()));
 	}
 	
-	@RequestMapping(value = "/diary/list", method = RequestMethod.POST)
-	public Response viewDiary(@RequestParam("userId") String user_id, @RequestParam("diaryId") String diary_id,
-												@RequestBody final DiaryView diary_view) throws Exception{
+    @PostMapping("/view")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "userId", value = "사용자 아이디", required = true, 
+        					dataType = "string", paramType = "query", defaultValue = "abcdefghijklmnop"),
+        @ApiImplicitParam(name = "diaryId", value = "다이어리 번호", required = true, 
+							dataType = "string", paramType = "query", defaultValue = "159")
+    })
+	public Response viewDiary(String userId, String diaryId, @RequestBody final DiaryView diary_view) throws Exception{
 		
-		if(userH.isInvalidUser(user_id, diary_view.getUser_key()))
-			return responseH.failResponse("NotValidUserException");
+    	user.isInvalidUser(userId, diary_view.getUser_key());
+		
+		return response.getForm(diary.getDiaryInfoes(userId, diaryId));
+	}
+	
+    
+    @GetMapping("/list")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "userId", value = "사용자 아이디", required = true, 
+        					dataType = "string", paramType = "query", defaultValue = "abcdefghijklmnop"),
+        @ApiImplicitParam(name = "yearMonth", value = "작성한 연도, 월", required = true, 
+							dataType = "string", paramType = "query", defaultValue = "2022-04")
+    })
+	public Response viewAllDiaries(String userId, String yearMonth) throws Exception {
 
-		return responseH.successResponse(diaryH.getDiaryInfoes(user_id, diary_id));
+		user.isNotPresentUser(userId, false);
+
+		return response.getForm(diary.getMonthlyDiaries(userId, yearMonth));
 	}
 	
-	@RequestMapping(value = "/diary/list", method = RequestMethod.GET)
-	public Response viewAllDiaries(@RequestParam("userId") String user_id, @RequestParam("yearMonth") String year_month) {
-		try {
-			userH.isNotPresentUser(user_id);
-			return responseH.successResponse(diaryH.getMonthlyDiaries(user_id, year_month));
-		} catch(Exception e) {
-			return responseH.failResponse(e.getMessage());
-		}				
+    
+    @PatchMapping("/edit-diary")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "userId", value = "사용자 아이디", required = true, 
+        					dataType = "string", paramType = "query", defaultValue = "abcdefghijklmnop"),
+        @ApiImplicitParam(name = "diaryId", value = "다이어리 번호", required = true, 
+							dataType = "string", paramType = "query", defaultValue = "159")
+    })
+	public Response updateDiary(String userId, String diaryId, @RequestBody final DiaryUpdate diary) throws Exception {
 		
-	}
-	
-	@RequestMapping(value = "/diary", method = RequestMethod.PATCH)
-	public Response updateDiary(@RequestParam("userId") String user_id, @RequestParam("diaryId") String diary_id,
-									@RequestBody final DiaryUpdate diary) throws Exception {
+    	user.isInvalidUser(userId, diary.getUser_key());
 		
-		if(userH.isInvalidUser(user_id, diary.getUser_key()))
-			return responseH.failResponse("NotValidUserException");
-		
-		diaryDAO.updateDiaryContent(new Diary(user_id, Integer.parseInt(diary_id), diary.getContent()));
+		diaryDAO.updateDiaryContent(new Diary(userId, Integer.parseInt(diaryId), diary.getContent()));
 						
-		return responseH.successResponse(new DiaryUpdateData(Integer.parseInt(diary_id)));
+		return response.getForm(new DiaryUpdateData(Integer.parseInt(diaryId)));
 	}
 	
 	
