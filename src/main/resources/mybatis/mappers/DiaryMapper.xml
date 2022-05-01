@@ -11,6 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="committed_date" column="committed_date"></result>
         <result property="updated_date" column="updated_date"></result>
     </resultMap>
+    
     <resultMap type="MonthlyDiaries" id="ResultMonthlyDiaries">
         <result property="diary_id" column="diary_id"></result>
         <result property="committed_date" column="committed_date"></result>

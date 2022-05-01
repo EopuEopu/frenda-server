@@ -1,4 +1,4 @@
-package com.eopueopu.frenda.handler;
+package com.eopueopu.frenda.handler.util;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

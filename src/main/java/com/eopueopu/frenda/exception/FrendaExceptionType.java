@@ -16,8 +16,8 @@ public enum FrendaExceptionType {
 	FriendsCountOutOfBoundsException(4200, "FriendsCountOutOfBoundsException", "생성 가능한 최대의 Frenda를 생성했습니다."),
 	AlreadyExistUser(4201, "AlreadyExistUser", "이미 존재하는 사용자입니다."),
 	
-	InvalidHuntConditionException(5100, "InvalidHuntConditionException", "포탈이 열리지 않아 몬스터를 사냥할 수 없습니다."),
-	InvalidIncreaseFavorConditionException(5101, "InvalidIncreaseFavorConditionException", "호감도를 증가할 수 없는 조건이 있습니다."),
+	InvalidHuntConditionException(5100, "InvalidHuntConditionException", "몬스터를 사냥할 수 없습니다."),
+	InvalidIncreaseFavorConditionException(5101, "InvalidIncreaseFavorConditionException", "호감도를 증가할 수 없습니다."),
 	
 	SQLException(8100, "SQLException", "DataBase 연결 오류"),
 	

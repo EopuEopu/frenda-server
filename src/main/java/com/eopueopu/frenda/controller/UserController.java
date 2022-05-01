@@ -3,7 +3,6 @@ package com.eopueopu.frenda.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eopueopu.frenda.handler.UserHandler;
@@ -15,46 +14,45 @@ import com.eopueopu.frenda.response.Response;
 @RequestMapping("/user")
 public class UserController {
 	@Autowired
-	UserHandler userH;
+	UserHandler user;
 
 	@Autowired
-	ResponseHandler responseH;
+	ResponseHandler response;
 
 	@GetMapping("/new-user")
-	public Response makeNewUser(@RequestParam("userId") String user_id) throws Exception {
+	public Response makeNewUser(String userId) throws Exception {
 
-		userH.isNotPresentUser(user_id, true);
+		user.isNotPresentUser(userId, true);
 
-		userH.insertNewUserInfo(user_id);
+		user.insertNewUserInfo(userId);
 
-		return responseH.getForm(userH.getUserKeyData(user_id));
+		return response.getForm(user.getUserKeyData(userId));
 	}
 
 	@GetMapping("/new-friend")
-	public Response makeNewFriend(@RequestParam("userId") String user_id,
-			@RequestParam("friendName") String friend_name) throws Exception {
+	public Response makeNewFriend(String userId, String friendName) throws Exception {
 
-		userH.isNotPresentUser(user_id, false);
-		userH.hasFullFriends(user_id);
+		user.isNotPresentUser(userId, false);
+		user.hasFullFriends(userId);
 
-		userH.insertNewUserFriend(user_id, friend_name);
+		user.insertNewUserFriend(userId, friendName);
 
-		return responseH.getForm(userH.getFriendStatus(user_id).convertToData());
+		return response.getForm(user.getFriendStatus(userId).convertToData());
 	}
 
 	@GetMapping("/key")
-	public Response getUserKey(@RequestParam("userId") String user_id) throws Exception {
-		userH.isNotPresentUser(user_id, false);
+	public Response getUserKey(String userId) throws Exception {
+		user.isNotPresentUser(userId, false);
 		
-		return responseH.getForm(userH.getUserKeyData(user_id));
+		return response.getForm(user.getUserKeyData(userId));
 	}
 
 	// /new-friend를 하기 전 호출 시
 	@GetMapping("/info")
-	public Response getUserStatus(@RequestParam("userId") String user_id) throws Exception {
-		userH.isNotPresentUser(user_id, false);
+	public Response getUserStatus(String userId) throws Exception {
+		user.isNotPresentUser(userId, false);
 		
-		return responseH.getForm(responseH.logInData(user_id));
+		return response.getForm(response.logInData(userId));
 
 	}
 }

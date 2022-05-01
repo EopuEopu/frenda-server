@@ -4,22 +4,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.eopueopu.frenda.db.clovaTemp.ClovaTemp;
-import com.eopueopu.frenda.db.clovaTemp.ClovaTempDAOService;
-import com.eopueopu.frenda.db.food.FoodDAOService;
-import com.eopueopu.frenda.db.sentiment.SentimentDAOService;
+import com.eopueopu.frenda.db.clovaTemp.ClovaTempDAO;
+import com.eopueopu.frenda.db.food.FoodDAO;
+import com.eopueopu.frenda.db.sentiment.SentimentDAO;
+import com.eopueopu.frenda.handler.util.ClovaHandler;
+import com.eopueopu.frenda.handler.util.EncryptHandler;
 import com.eopueopu.frenda.response.data.SentimentRecommendationData;
 import com.eopueopu.frenda.response.data.sub.FoodData;
 
 @Service
 public class SentimentHandler {
 	@Autowired
-	private SentimentDAOService sentimentDAO;
+	private SentimentDAO sentimentDAO;
 	
 	@Autowired
-	private FoodDAOService foodDAO;
+	private FoodDAO foodDAO;
 	
 	@Autowired
-	private ClovaTempDAOService clovaTempDAO;
+	private ClovaTempDAO clovaTempDAO;
 	
 	@Autowired
 	private EncryptHandler encrypt;

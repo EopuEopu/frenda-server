@@ -29,11 +29,8 @@ public class HuntedMonsterLogDAOService implements HuntedMonsterLogDAO{
 	public Boolean getFavorIncreasedValue(String user_id) throws Exception {
 		HuntedMonsterLogMapper mapper = sqlSession.getMapper(HuntedMonsterLogMapper.class);
 		Boolean result = mapper.getFavorIncreasedValue(user_id);
-		
-		if(result == null)
-			throw new InvalidIncreaseFavorConditionException();
-		
-		return result;
+			
+		return result == null ? false : result;
 	}
 	
 	
