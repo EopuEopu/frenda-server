@@ -93,7 +93,7 @@ public class DiaryHandler {
 		Document doc;
 		
 		if((clovaTemp = clovaTempDAO.getTodayTempDataByUserId(user_id)) == null) {
-			doc = clova.getDocumentFromDiary(encrypt.decryptContent(user_id, diary.getContent()));
+			doc = clova.getDocumentFromDiary(encrypt.decryptContent(user_id, diary.getContent()).replaceAll("\n", " "));
 		} else {
 			doc = clovaTemp.convertClovaTempToDoc();
 			clovaTempDAO.deleteTodayTempData(user_id);

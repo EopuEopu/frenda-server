@@ -39,7 +39,7 @@ public class SentimentHandler {
 	public SentimentRecommendationData getSentimentData(String user_id, String encrypted_diary) throws Exception {
 		
 		// document에서 clovaTemp로 변환하는 코드 작성 후 바로 insert 필요, clova_sentiment는 .getSentiment로 파라미터로 전달
-		ClovaTemp clovaAnalyzed = clova.getDocumentFromDiary(encrypt.decryptContent(user_id, encrypted_diary))
+		ClovaTemp clovaAnalyzed = clova.getDocumentFromDiary(encrypt.decryptContent(user_id, encrypted_diary).replaceAll("\n", " "))
 										.convertDocToClovaTemp(user_id, encrypted_diary);
 		
 		clovaTempDAO.insertTodayTempData(clovaAnalyzed);
