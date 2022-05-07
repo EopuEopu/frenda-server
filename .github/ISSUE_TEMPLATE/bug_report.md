@@ -7,30 +7,29 @@ assignees: ''
 
 ---
 
-### Description
+### 설명
 
 
-### Steps to reproduce the behavior:
+### 버그 발생 시의 동작 :
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
 4. See error
 
-### Expected behavior
-A clear and concise description of what you expected to happen.
+### 제대로 동작되었을 경우의 Response/Behavior : 
+- 
 
-### References
-If applicable, add screenshots or documents to help explain your problem.
+### 환경
 
-**Desktop (please complete the following information):**
+**Desktop :**
  - OS: [e.g. iOS]
  - Browser [e.g. chrome, safari]
  - Version [e.g. 22]
 
-**Smartphone (please complete the following information):**
+**Smartphone :**
  - Device: [e.g. iPhone6]
  - OS: [e.g. iOS8.1]
  - Browser [e.g. stock browser, safari]
  - Version [e.g. 22]
 
-### Additional context
+### 추가 정보
