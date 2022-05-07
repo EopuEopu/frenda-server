@@ -15,14 +15,9 @@ public class UserFriendStatusData implements Data {
 	public String getFriend_name() {
 		return friend_name;
 	}
-	public void setFriend_name(String friend_name) {
-		this.friend_name = friend_name;
-	}
+	
 	public int getFavor_value() {
 		return favor_value;
-	}
-	public void setFavor_value(int favor_value) {
-		this.favor_value = favor_value;
 	}
 
 }

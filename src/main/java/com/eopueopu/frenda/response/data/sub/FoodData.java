@@ -15,17 +15,8 @@ public class FoodData {
 		return food_name;
 	}
 
-	public void setFood_name(String food_name) {
-		this.food_name = food_name;
-	}
-
 	public String getFood_conversation() {
 		return food_conversation;
 	}
-
-	public void setFood_conversation(String food_conversation) {
-		this.food_conversation = food_conversation;
-	}
-	
 	
 }

@@ -15,10 +15,5 @@ public class MonthlyDiariesDataList implements Data {
 	public List<MonthlyDiaries> getMonthlyDiaries() {
 		return monthlyDiaries;
 	}
-
-	public void setMonthlyDiaries(List<MonthlyDiaries> monthlyDiaries) {
-		this.monthlyDiaries = monthlyDiaries;
-	}
-	
 	
 }

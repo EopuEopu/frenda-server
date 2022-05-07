@@ -13,8 +13,4 @@ public class AfterFavorUpData implements Data {
 	public FavorData getFavor() {
 		return favor;
 	}
-
-	public void setFavor(FavorData favor) {
-		this.favor = favor;
-	}
 }

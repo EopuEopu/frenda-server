@@ -12,9 +12,5 @@ public class UserKeyData implements Data{
 	public String getUser_key() {
 		return user_key;
 	}
-
-	public void setUser_key(String user_key) {
-		this.user_key = user_key;
-	}
 	
 }

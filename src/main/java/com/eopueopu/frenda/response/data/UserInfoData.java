@@ -26,44 +26,25 @@ public class UserInfoData implements Data{
 	public String getFriend_name() {
 		return friend_name;
 	}
-	public void setFriend_name(String friend_name) {
-		this.friend_name = friend_name;
-	}
+	
 	public boolean isPortal_open() {
 		return portal_open;
 	}
-	public void setPortal_open(boolean portal_open) {
-		this.portal_open = portal_open;
-	}
+	
 	public int getDiary_id() {
 		return diary_id;
-	}
-	public void setDiary_id(int diary_id) {
-		this.diary_id = diary_id;
 	}
 
 	public FavorData getFavor() {
 		return favor;
 	}
 
-	public void setFavor(FavorData favor) {
-		this.favor = favor;
-	}
-
 	public String getLatest_committed_date() {
 		return latest_committed_date;
 	}
 
-	public void setLatest_committed_date(String latest_committed_date) {
-		this.latest_committed_date = latest_committed_date;
-	}
-
 	public boolean isFavor_increased() {
 		return favor_increased;
-	}
-
-	public void setFavor_increased(boolean favor_increased) {
-		this.favor_increased = favor_increased;
 	}
 	
 }
