@@ -10,7 +10,7 @@ import com.eopueopu.frenda.db.user.User;
 import com.eopueopu.frenda.db.user.UserDAO;
 import com.eopueopu.frenda.db.userFriendStatus.UserFriendStatus;
 import com.eopueopu.frenda.db.userFriendStatus.UserFriendStatusDAO;
-import com.eopueopu.frenda.exception.user.AlreadyExistUser;
+import com.eopueopu.frenda.exception.user.AlreadyExistUserException;
 import com.eopueopu.frenda.exception.user.FriendsCountOutOfBoundsException;
 import com.eopueopu.frenda.exception.user.InvalidUserException;
 import com.eopueopu.frenda.exception.user.NotPresentUserException;
@@ -40,14 +40,18 @@ public class UserHandler {
 	 * @param user_id
 	 * @throws Exception
 	 */
-	public void isNotPresentUser(String user_id, boolean checkDuplicateUser) throws Exception {
+	public boolean isNotPresentUser(String user_id) throws Exception {
 		int userIdCount = userDAO.checkUserId(user_id);
 		
-		if(!checkDuplicateUser && userIdCount < 1)
+		if(userIdCount < 1)
 			throw new NotPresentUserException();
 		
-		else if(checkDuplicateUser && userIdCount > 0)
-			throw new AlreadyExistUser();
+		return true;
+	}
+	
+	public void isAlreadyExistUser(String user_id) throws Exception {
+		if(isNotPresentUser(user_id))
+			throw new AlreadyExistUserException();
 	}
 	
 	public void isInvalidUser(String user_id, String encrypted_key) throws Exception {

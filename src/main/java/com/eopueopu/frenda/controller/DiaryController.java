@@ -90,7 +90,7 @@ public class DiaryController {
     })
 	public Response viewAllDiaries(String userId, String yearMonth) throws Exception {
 
-		user.isNotPresentUser(userId, false);
+		user.isNotPresentUser(userId);
 
 		return response.getForm(diary.getMonthlyDiaries(userId, yearMonth));
 	}

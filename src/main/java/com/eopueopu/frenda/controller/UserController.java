@@ -22,7 +22,7 @@ public class UserController {
 	@GetMapping("/new-user")
 	public Response makeNewUser(String userId) throws Exception {
 
-		user.isNotPresentUser(userId, true);
+		user.isAlreadyExistUser(userId);
 
 		user.insertNewUserInfo(userId);
 
@@ -32,7 +32,7 @@ public class UserController {
 	@GetMapping("/new-friend")
 	public Response makeNewFriend(String userId, String friendName) throws Exception {
 
-		user.isNotPresentUser(userId, false);
+		user.isNotPresentUser(userId);
 		user.hasFullFriends(userId);
 
 		user.insertNewUserFriend(userId, friendName);
@@ -42,7 +42,7 @@ public class UserController {
 
 	@GetMapping("/key")
 	public Response getUserKey(String userId) throws Exception {
-		user.isNotPresentUser(userId, false);
+		user.isNotPresentUser(userId);
 		
 		return response.getForm(user.getUserKeyData(userId));
 	}
@@ -50,7 +50,7 @@ public class UserController {
 	// /new-friend를 하기 전 호출 시
 	@GetMapping("/info")
 	public Response getUserStatus(String userId) throws Exception {
-		user.isNotPresentUser(userId, false);
+		user.isNotPresentUser(userId);
 		
 		return response.getForm(response.logInData(userId));
 

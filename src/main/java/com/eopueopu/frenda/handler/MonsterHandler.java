@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.eopueopu.frenda.db.huntedMonsterLog.HuntedMonsterLog;
 import com.eopueopu.frenda.db.huntedMonsterLog.HuntedMonsterLogDAO;
+import com.eopueopu.frenda.exception.monster.InvalidHuntConditionException;
 import com.eopueopu.frenda.exception.monster.InvalidIncreaseFavorConditionException;
 import com.eopueopu.frenda.response.data.AfterFavorUpData;
 import com.eopueopu.frenda.response.data.AfterMonsterData;
@@ -42,5 +43,10 @@ public class MonsterHandler {
 		
 		if(!monsterDAO.getFavorIncreasedValue(user_id))
 			throw new InvalidIncreaseFavorConditionException();
+	}
+	
+	public void canAccessHuntingZone(String user_id) throws Exception {
+		if(!user.getPortalOpen(user_id))
+			throw new InvalidHuntConditionException();
 	}
 }

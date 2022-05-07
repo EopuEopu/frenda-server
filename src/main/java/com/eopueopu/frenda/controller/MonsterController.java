@@ -26,15 +26,17 @@ public class MonsterController {
 	@GetMapping("/log")
 	public Response huntMonster(String userId) throws Exception {
 		
-		user.isNotPresentUser(userId, false);
-
+		user.isNotPresentUser(userId);
+		
+		monster.canAccessHuntingZone(userId);
+		
 		return response.getForm(monster.processHunting(userId));
 	}
 	
 	@GetMapping("/favor-value")
 	public Response addFavorAfterHuntMonster(String userId) throws Exception {
 		
-		user.isNotPresentUser(userId, false);
+		user.isNotPresentUser(userId);
 		
 		monster.isFavorIncreased(userId);
 		
