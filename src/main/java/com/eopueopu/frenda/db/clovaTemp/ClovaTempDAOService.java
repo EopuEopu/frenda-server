@@ -19,7 +19,6 @@ public class ClovaTempDAOService implements ClovaTempDAO{
 	public void insertTodayTempData(ClovaTemp clovaTemp) throws Exception {
 		ClovaTempMapper mapper = sqlSession.getMapper(ClovaTempMapper.class);
 		mapper.insertTodayTempData(clovaTemp);
-		
 	}
 
 	@Override

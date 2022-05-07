@@ -13,17 +13,8 @@ public class FavorData {
 		return favor_value;
 	}
 
-	public void setFavor_value(int favor_value) {
-		this.favor_value = favor_value;
-	}
-
 	public int getIncremented_value() {
 		return incremented_value;
 	}
-
-	public void setIncremented_value(int incremented_value) {
-		this.incremented_value = incremented_value;
-	}
-	
 	
 }

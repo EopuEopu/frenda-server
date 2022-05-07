@@ -15,11 +15,5 @@ public class AfterMonsterData implements Data{
 	public List<NegativeSentimentCount> getSentiments() {
 		return sentiments;
 	}
-
-	public void setSentiments(List<NegativeSentimentCount> sentiments) {
-		this.sentiments = sentiments;
-	}
 	
-	
-
 }

@@ -13,9 +13,4 @@ public class DiaryUpdateData implements Data{
 		return diary_id;
 	}
 
-	public void setDiary_id(int diary_id) {
-		this.diary_id = diary_id;
-	}
-	
-	
 }

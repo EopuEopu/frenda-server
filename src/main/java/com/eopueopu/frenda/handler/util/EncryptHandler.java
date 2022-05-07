@@ -1,4 +1,4 @@
-package com.eopueopu.frenda.handler;
+package com.eopueopu.frenda.handler.util;
 
 import java.util.Base64;
 
@@ -21,7 +21,7 @@ public class EncryptHandler {
 	private String alg = "AES/CBC/PKCS5Padding";
 	
 	public String encryptContent(String key, String content) throws Exception {
-		key.substring(Integer.parseInt(subStart), Integer.parseInt(subEnd));
+		key = key.substring(Integer.parseInt(subStart), Integer.parseInt(subEnd));
 		Cipher cipher = Cipher.getInstance(alg);
 		SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(), "AES");
 		IvParameterSpec paramSpec = new IvParameterSpec(key.getBytes());
@@ -32,7 +32,7 @@ public class EncryptHandler {
 	}
 	
 	public String decryptContent(String key, String encryptedContent) throws Exception {
-		key.substring(Integer.parseInt(subStart), Integer.parseInt(subEnd));
+		key = key.substring(Integer.parseInt(subStart), Integer.parseInt(subEnd));
 		Cipher cipher = Cipher.getInstance(alg);
 		SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(), "AES");
 		IvParameterSpec paramSpec = new IvParameterSpec(key.getBytes());

@@ -14,15 +14,9 @@ public class NegativeSentimentCount {
 	public String getSentiment() {
 		return sentiment;
 	}
-	public void setSentiment(String sentiment) {
-		this.sentiment = sentiment;
-	}
+	
 	public int getCount() {
 		return count;
 	}
-	public void setCount(int count) {
-		this.count = count;
-	}
-	
 	
 }

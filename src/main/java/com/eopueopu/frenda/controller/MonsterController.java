@@ -1,63 +1,59 @@
 package com.eopueopu.frenda.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.eopueopu.frenda.db.diarySentiment.DiarySentimentDAOService;
-import com.eopueopu.frenda.db.huntedMonsterLog.HuntedMonsterLog;
-import com.eopueopu.frenda.db.huntedMonsterLog.HuntedMonsterLogDAOService;
-import com.eopueopu.frenda.db.user.UserDAOService;
-import com.eopueopu.frenda.db.userFriendStatus.UserFriendStatusDAOService;
-import com.eopueopu.frenda.handler.ResponseHandler;
+import com.eopueopu.frenda.handler.MonsterHandler;
 import com.eopueopu.frenda.handler.UserHandler;
+import com.eopueopu.frenda.handler.util.ResponseHandler;
 import com.eopueopu.frenda.response.Response;
-import com.eopueopu.frenda.response.data.AfterFavorUpData;
-import com.eopueopu.frenda.response.data.AfterMonsterData;
-import com.eopueopu.frenda.response.data.sub.FavorData;
+
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
+@RequestMapping("/monster")
 public class MonsterController {
 	@Autowired
-	private UserHandler userH;
+	private MonsterHandler monster;
 	
 	@Autowired
-	private ResponseHandler responseH;
+	private UserHandler user;
 	
 	@Autowired
-	UserDAOService userDAO;
+	private ResponseHandler response;
 	
-	@Autowired
-	UserFriendStatusDAOService userFriendStatusDAO;
-	
-	@Autowired
-	DiarySentimentDAOService diarySentimentDAO;
-	
-	@Autowired
-	HuntedMonsterLogDAOService huntedMonsterLogDAO;
-	
-	@RequestMapping(value = "/monster-log", method = RequestMethod.GET)
-	public Response huntMonster(@RequestParam("userId") String user_id) throws Exception {
-		if(userH.isNotPresentUser(user_id))
-			return responseH.failResponse();
+	@GetMapping("/log")
+    @ApiOperation(value = "몬스터 사냥 후 로그 저장", notes = "몬스터 사냥 여부(portal open)를 체크하여 몬스터 사냥 후 log 저장")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "몬스터 사냥 완료"),
+		@ApiResponse(code = 5100, message = "portal이 열리지 않았는데 사냥 시도"),
+	})
+	public Response huntMonster(String userId) throws Exception {
 		
-		huntedMonsterLogDAO.insertMonsterLog(new HuntedMonsterLog(user_id));
-		userDAO.updateNegativeDiaryCountToZero(user_id);
+		user.isNotPresentUser(userId);
 		
-		return responseH.successResponse(new AfterMonsterData(diarySentimentDAO.getNegativeSentimentCount(user_id)));
+		monster.canAccessHuntingZone(userId);
+		
+		return response.getForm(monster.processHunting(userId));
 	}
 	
-	@RequestMapping(value = "/favor-value", method = RequestMethod.GET)
-	public Response addFavorAfterHuntMonster(@RequestParam("userId") String user_id) throws Exception {
-		if(userH.isNotPresentUser(user_id) || huntedMonsterLogDAO.getFavorIncreasedValue(user_id))
-			return responseH.failResponse();
+	@GetMapping("/favor-value")
+    @ApiOperation(value = "몬스터 사냥 이후 호감도 상승", notes = "몬스터 사냥 후 홈으로 돌아와 호감도를 올리는 애니메이션 수행 후 실제 호감도 증가")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "호감도 상승 완료"),
+		@ApiResponse(code = 5101, message = "호감도를 이미 올렸거나 올릴 수 없는 상태에서 호감도 증가 시도"),
+	})
+	public Response addFavorAfterHuntMonster(String userId) throws Exception {
 		
-		userH.updateFriendFavor(user_id, 3);
-		huntedMonsterLogDAO.updateFavorIncreased(user_id);
+		user.isNotPresentUser(userId);
 		
-		return responseH.successResponse(new AfterFavorUpData(new FavorData(userFriendStatusDAO.getFavorValueByUserId(user_id), 3)));
+		monster.isFavorIncreased(userId);
+		
+		return response.getForm(monster.increaseFavor(userId));
 	}
 	
 }

@@ -24,6 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	WHERE diary_id = ${diary_id}
     </select>
     
+    <!-- To be Deved -->
     <select id="getNegativeSentimentsByUserId" resultMap="ResultDiarySentiment" parameterType="_int">
     	SELECT *
     	FROM diary_sentiment

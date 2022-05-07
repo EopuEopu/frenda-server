@@ -9,9 +9,4 @@ public class ClovaResponse {
 	public Document getDocument() {
 		return document;
 	}
-
-	public void setDocument(Document document) {
-		this.document = document;
-	}
-	
 }

@@ -19,19 +19,12 @@ public class DiaryViewData implements Data {
 	public String getContent() {
 		return content;
 	}
-	public void setContent(String content) {
-		this.content = content;
-	}
+	
 	public String getCommitted_date() {
 		return committed_date;
 	}
-	public void setCommitted_date(String committed_date) {
-		this.committed_date = committed_date;
-	}
+	
 	public DiaryAllSentiments getDiary_sentiments() {
 		return diary_sentiments;
-	}
-	public void setDiary_sentiments(DiaryAllSentiments diary_sentiments) {
-		this.diary_sentiments = diary_sentiments;
 	}
 }

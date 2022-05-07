@@ -4,45 +4,65 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.eopueopu.frenda.db.huntedMonsterLog.HuntedMonsterLogDAOService;
+import com.eopueopu.frenda.db.huntedMonsterLog.HuntedMonsterLogDAO;
 import com.eopueopu.frenda.db.request.AddFavorValueRequest;
 import com.eopueopu.frenda.db.user.User;
-import com.eopueopu.frenda.db.user.UserDAOService;
+import com.eopueopu.frenda.db.user.UserDAO;
 import com.eopueopu.frenda.db.userFriendStatus.UserFriendStatus;
-import com.eopueopu.frenda.db.userFriendStatus.UserFriendStatusDAOService;
+import com.eopueopu.frenda.db.userFriendStatus.UserFriendStatusDAO;
+import com.eopueopu.frenda.exception.user.AlreadyExistUserException;
+import com.eopueopu.frenda.exception.user.FriendsCountOutOfBoundsException;
+import com.eopueopu.frenda.exception.user.InvalidUserException;
+import com.eopueopu.frenda.exception.user.NotPresentUserException;
+import com.eopueopu.frenda.handler.util.EncryptHandler;
+import com.eopueopu.frenda.response.data.AfterFavorUpData;
 import com.eopueopu.frenda.response.data.UserKeyData;
+import com.eopueopu.frenda.response.data.sub.FavorData;
 
 @Service
 public class UserHandler {
 	@Autowired
-	private UserDAOService userDAO;
+	private UserDAO userDAO;
 	
 	@Autowired
-	UserFriendStatusDAOService userFriendStatusDAO;
+	private UserFriendStatusDAO userFriendStatusDAO;
 	
 	@Autowired
-	HuntedMonsterLogDAOService huntedMonsterLogDAO;
+	private HuntedMonsterLogDAO huntedMonsterLogDAO;
 	
 	@Autowired
 	private EncryptHandler encryptH;
 	
+	static final private int MAX_FRIEND_COUNT = 1;
+	
 	/**
 	 * check existence of user information
 	 * @param user_id
-	 * @return boolean
 	 * @throws Exception
 	 */
 	public boolean isNotPresentUser(String user_id) throws Exception {
-		return (userDAO.checkUserId(user_id) < 1);
+		int userIdCount = userDAO.checkUserId(user_id);
+		
+		if(userIdCount < 1)
+			throw new NotPresentUserException();
+		
+		return true;
 	}
 	
-	public boolean isInvalidUser(String user_id, String encrypted_key) throws Exception {
+	public void isAlreadyExistUser(String user_id) throws Exception {
+		if(isNotPresentUser(user_id))
+			throw new AlreadyExistUserException();
+	}
+	
+	public void isInvalidUser(String user_id, String encrypted_key) throws Exception {
 		String user_key = encryptH.decryptContent(user_id, encrypted_key);
-		return (userDAO.getUserValidation(user_id, user_key) < 1);
+		if(userDAO.getUserValidation(user_id, user_key) < 1)
+			throw new InvalidUserException();
 	}
 	
-	public boolean isPresentFriend(String user_id) throws Exception {
-		return (userFriendStatusDAO.checkUserFriendByUserId(user_id) > 0);
+	public void hasFullFriends(String user_id) throws Exception {
+		if(userFriendStatusDAO.checkUserFriendByUserId(user_id) == MAX_FRIEND_COUNT)
+			throw new FriendsCountOutOfBoundsException();
 	}
 	
 	
@@ -69,6 +89,10 @@ public class UserHandler {
 		return new UserKeyData(getEncryptedUserKey(user_id));
 	}
 	
+	public AfterFavorUpData getFavorValue(String user_id) throws Exception {
+		return new AfterFavorUpData(new FavorData(userFriendStatusDAO.getFavorValueByUserId(user_id), 3));
+	}
+	
 	/**
 	 * insert/update user data to Database
 	 */
@@ -84,7 +108,17 @@ public class UserHandler {
 		userFriendStatusDAO.addFavorValue(new AddFavorValueRequest(user_id, value));
 	}
 	
+	public void increaseNegativeDiarys(String user_id) throws Exception {
+		userDAO.addNegativeDiaryCount(user_id);
+	}
 	
+	public void clearNegativeCount(String user_id) throws Exception {
+		userDAO.updateNegativeDiaryCountToZero(user_id);
+	}
+	
+	/**
+	 * Credential Methods --> to be DEPRECATED
+	 */
 	private String makeUserKey() {
 		return RandomStringUtils.randomAlphanumeric(16);
 	}
