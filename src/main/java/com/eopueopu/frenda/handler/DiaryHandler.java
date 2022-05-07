@@ -12,6 +12,7 @@ import com.eopueopu.frenda.db.diary.Diary;
 import com.eopueopu.frenda.db.diary.DiaryDAO;
 import com.eopueopu.frenda.db.diarySentiment.DiarySentiment;
 import com.eopueopu.frenda.db.diarySentiment.DiarySentimentDAO;
+import com.eopueopu.frenda.exception.diary.InexistDiaryIdException;
 import com.eopueopu.frenda.handler.util.ClovaHandler;
 import com.eopueopu.frenda.handler.util.EncryptHandler;
 import com.eopueopu.frenda.request.DiaryInsertion;
@@ -51,8 +52,13 @@ public class DiaryHandler {
 	}
 	
 	public DiaryViewData getDiaryInfoes(String user_id, String diary_id) throws Exception {
-		return new DiaryViewData(diaryDAO.getDiaryByUserIdAndDiaryId(user_id, diary_id),
-							new DiaryAllSentiments(diarySentimentDAO.getDiarySentimentByDiaryId(Integer.parseInt(diary_id))));
+		Diary diary = diaryDAO.getDiaryByUserIdAndDiaryId(user_id, diary_id);
+		DiarySentiment diarySentiment = diarySentimentDAO.getDiarySentimentByDiaryId(Integer.parseInt(diary_id));
+		
+		if(diary == null || diarySentiment == null)
+			throw new InexistDiaryIdException();
+		
+		return new DiaryViewData(diary, new DiaryAllSentiments(diarySentiment));
 	}
 	
 	public Diary getLatestDiaryInfoes(String user_id) throws Exception {
@@ -77,7 +83,7 @@ public class DiaryHandler {
 	}
 	
 	/**
-	 * Update Diary
+	 * Update Diary : 존재하지 않는 id로 수정을 할 때 throw Exception
 	 */
 	public void updateDiary(String user_id, int diary_id, String content) throws Exception {
 		
