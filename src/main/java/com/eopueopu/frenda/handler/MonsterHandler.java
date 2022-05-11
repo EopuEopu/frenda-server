@@ -41,7 +41,7 @@ public class MonsterHandler {
 	
 	public void isFavorIncreased(String user_id) throws Exception {
 		
-		if(!monsterDAO.getFavorIncreasedValue(user_id))
+		if(monsterDAO.getFavorIncreasedValue(user_id))
 			throw new InvalidIncreaseFavorConditionException();
 	}
 	
