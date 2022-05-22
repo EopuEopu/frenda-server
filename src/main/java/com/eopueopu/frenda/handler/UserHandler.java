@@ -40,18 +40,20 @@ public class UserHandler {
 	 * @param user_id
 	 * @throws Exception
 	 */
-	public boolean isNotPresentUser(String user_id) throws Exception {
-		int userIdCount = userDAO.checkUserId(user_id);
-		
-		if(userIdCount < 1)
+	
+	public void isNotPresentUser(String user_id) throws Exception {
+		if(!checkUserPresence(user_id))
 			throw new NotPresentUserException();
-		
-		return true;
 	}
 	
+	
 	public void isAlreadyExistUser(String user_id) throws Exception {
-		if(isNotPresentUser(user_id))
+		if(checkUserPresence(user_id))
 			throw new AlreadyExistUserException();
+	}
+	
+	public boolean checkUserPresence(String user_id) throws Exception {
+		return userDAO.checkUserId(user_id) < 1 ? false : true;
 	}
 	
 	public void isInvalidUser(String user_id, String encrypted_key) throws Exception {
