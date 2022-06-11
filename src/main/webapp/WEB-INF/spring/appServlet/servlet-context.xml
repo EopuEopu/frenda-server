@@ -25,6 +25,14 @@
 	
 	<context:component-scan base-package="com.eopueopu.frenda" />
 	
+	<interceptors>
+		<interceptor>
+			<mapping path="/**" />
+			<beans:bean id="logInterceptor"
+				class="com.eopueopu.frenda.handler.util.LoggingHandler">
+			</beans:bean>
+		</interceptor>
+	</interceptors>
 	
 	
 </beans:beans>
