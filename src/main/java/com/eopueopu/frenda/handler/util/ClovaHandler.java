@@ -7,6 +7,8 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,8 @@ public class ClovaHandler {
 	
 	@Value("#{frenda['frenda.clova.key']}")
 	private String clova_key;
+	
+	private static Logger logger = LoggerFactory.getLogger(ClovaHandler.class);
 	
 	public Document getDocumentFromDiary(String diary) throws JsonMappingException, JsonProcessingException {
 		String response = callClovaSentiment(diary);
@@ -59,8 +63,10 @@ public class ClovaHandler {
 	        bw.close();
 	        br.close();
 	        
+	        logger.info("CLOVA SENTIMENT SUCCESS");
+	        
 		} catch(Exception e) {
-			e.printStackTrace();
+			logger.error("CLOVA SENTIMENT FAIL : {}", e.getMessage());
 		}
 		return result;
 	}
