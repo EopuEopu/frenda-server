@@ -2,6 +2,7 @@ package com.eopueopu.frenda.handler;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.eopueopu.frenda.db.huntedMonsterLog.HuntedMonsterLog;
 import com.eopueopu.frenda.db.huntedMonsterLog.HuntedMonsterLogDAO;
@@ -11,6 +12,7 @@ import com.eopueopu.frenda.response.data.AfterFavorUpData;
 import com.eopueopu.frenda.response.data.AfterMonsterData;
 
 @Service
+@Transactional
 public class MonsterHandler {
 	@Autowired
 	HuntedMonsterLogDAO monsterDAO;
