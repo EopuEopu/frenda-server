@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.eopueopu.frenda.clova.Document;
 import com.eopueopu.frenda.db.clovaTemp.ClovaTemp;
@@ -22,6 +23,7 @@ import com.eopueopu.frenda.response.data.sub.DiaryAllSentiments;
 import com.eopueopu.frenda.response.data.sub.NegativeSentimentCount;
 
 @Service
+@Transactional
 public class DiaryHandler {
 	@Autowired
 	private DiaryDAO diaryDAO;

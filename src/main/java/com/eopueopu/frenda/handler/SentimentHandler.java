@@ -2,6 +2,7 @@ package com.eopueopu.frenda.handler;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.eopueopu.frenda.db.clovaTemp.ClovaTemp;
 import com.eopueopu.frenda.db.clovaTemp.ClovaTempDAO;
@@ -13,6 +14,7 @@ import com.eopueopu.frenda.response.data.SentimentRecommendationData;
 import com.eopueopu.frenda.response.data.sub.FoodData;
 
 @Service
+@Transactional
 public class SentimentHandler {
 	@Autowired
 	private SentimentDAO sentimentDAO;
